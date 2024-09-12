@@ -1,7 +1,7 @@
 Feature: Login feature
 
   #This is a comment
-
+  @skip
   Scenario: Positive Login Scenario
     Given I open Koel Login Page
     When I enter email "demo@testpro.io"

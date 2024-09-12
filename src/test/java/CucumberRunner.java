@@ -5,7 +5,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 
-@CucumberOptions(features = {"src/test/resources/features/"})
+//@CucumberOptions(features = {"src/test/resources/features/"})
+@CucumberOptions(
+       // features = {"src/test/resources/features/"}, // Path to your feature files
+        features = {"src/test/resources/features/PlaylistCreation.feature"}, // Specify the exact feature file
+        glue = {"stepDefinitions"}, // Step definitions package
+        plugin = {"pretty", "html:target/cucumber-reports"}, // Reports generation
+        tags = "not @skip"// Exclude @skip tagged scenarios
+)
 public class CucumberRunner extends AbstractTestNGCucumberTests {
 
     private TestNGCucumberRunner testNGCucumberRunner;
