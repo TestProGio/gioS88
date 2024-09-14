@@ -1,12 +1,13 @@
+
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+import java.time.Duration;
 
 public class HomePage extends BasePage {
 
@@ -22,6 +23,8 @@ public class HomePage extends BasePage {
     By selectNewPlaylist = By.xpath("//*[@id='playlists']/nav/ul/li[1]");
     By selectNewSmartPlaylist = By.xpath("//*[@id='playlists']/nav/ul/li[2]");
     By nameInputField = By.cssSelector("input[name='name']");
+    By errorMessage = By.cssSelector("div.error.show");
+    By successMessage = By.cssSelector("div.success.show");
 
     // Methods
     public WebElement getUserAvatar() {
@@ -41,14 +44,20 @@ public class HomePage extends BasePage {
         actions.click(playlistButton).perform();
     }
 
-    public void selectPlaylistType(boolean isSmartPlaylist) {
-        // Select the appropriate option based on the parameter
-        By optionToSelect = isSmartPlaylist ? selectNewSmartPlaylist : selectNewPlaylist;
-        WebElement option = findElement(optionToSelect);
-        Actions actions = new Actions(driver);
-        actions.click(option).perform();
-    }
+public void selectPlaylistType(boolean isSmartPlaylist) {
+    // Select the appropriate option based on the parameter
+    By optionToSelect = isSmartPlaylist ? selectNewSmartPlaylist : selectNewPlaylist;
 
+    // Create WebDriverWait object
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+    // Wait until the element is clickable
+    WebElement option = wait.until(ExpectedConditions.elementToBeClickable(optionToSelect));
+
+    // Perform the click action
+    Actions actions = new Actions(driver);
+    actions.click(option).perform();
+}
     public void enterAndSubmitPlaylistName(String playlistName) {
         // Fill in the playlist name
         WebElement nameInput = findElement(nameInputField);
@@ -56,4 +65,25 @@ public class HomePage extends BasePage {
         nameInput.sendKeys(Keys.RETURN); // Simulate pressing Enter key
     }
 
+    // Wait for and check if the error message is displayed
+    public boolean isErrorMessageDisplayed() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
+            return error.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
+
+    // Wait for and check if the success message is displayed
+    public boolean isSuccessMessageDisplayed() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            WebElement success = wait.until(ExpectedConditions.visibilityOfElementLocated(successMessage));
+            return success.isDisplayed();
+        } catch (TimeoutException e) {
+            return false;
+        }
+    }
 }
