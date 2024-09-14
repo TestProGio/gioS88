@@ -55,7 +55,6 @@ public class PlaylistCreationTests {
     /*
     Scenario 1: User creates a new playlist successfully
     */
-
     @Given("I am logged in")
     public void iAmLoggedIn() throws InterruptedException {
         driver.get("https://qa.koel.app/"); // Replace with actual login URL
@@ -117,7 +116,7 @@ public class PlaylistCreationTests {
     }
 
     // Scenario 3: User tries to create a playlist with an invalid name
-    @And("The user enters and submits an invalid name with chars less than 3")
+    @And("The user enters and submits an invalid name")
     public void theUserEntersAndSubmitsAnInvalidPlaylistName() {
         String[] invalidPlaylistNames = {"A", "B", "Go", "abcdefghijk"};
 
@@ -136,7 +135,7 @@ public class PlaylistCreationTests {
                 boolean errorMessageDisplayed = homePage.isErrorMessageDisplayed();
 
                 if (isNameTooShort || isNameTooLong) {
-                    softAssert.assertFalse(successMessageDisplayed, "Playlist with invalid name '" + playlistName + "' should not have been created.");
+                    softAssert.assertFalse(successMessageDisplayed, "Playlist with invalid name '" + playlistName + "' should not have been created. No red border shown.");
                     Thread.sleep(1000);
                     softAssert.assertTrue(errorMessageDisplayed, "Error message should be displayed for invalid name '" + playlistName + "'.");
                 } else {
@@ -152,7 +151,6 @@ public class PlaylistCreationTests {
     }
 
 
-
     @Then("The playlist should not be created")
     public void thePlaylistShouldNotBeCreated() {
         boolean isErrorMessageDisplayed = homePage.isErrorMessageDisplayed();
@@ -162,6 +160,7 @@ public class PlaylistCreationTests {
             System.out.println("Error message is displayed as expected.");
         }
     }
+
 }
 
 
