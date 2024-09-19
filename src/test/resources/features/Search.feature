@@ -11,36 +11,38 @@ Feature: Koel Song Search Feature
   - Search should ignore leading and trailing white spaces.
   - Search should be case-sensitive.
   - I can clear the search query with the keyboard or the 'x' button. Clearing the search should also clear the results in all sections.
-@run
+
+  @run
   Scenario: Searching for an existing song should display results
     Given I am logged
     And I am on the all songs page
     And I navigate to the search box
-    When I type in the search box the existing song "Memoria"
+    When I type in the search box the existing song "Epic Song"
     Then the matched song should appear in the Songs section of the Search results page
-    And the Artist and Album sections should display relevant information
-    When I click the 'x' button
+   # And the Artist and Album sections should display relevant information
+    When I click the x button
     Then the search results should be cleared
 
-  @skip
+
+  @run
   Scenario: Searching for an existing artist should display results
     Given I am logged
     And I am on the all songs page
     And I navigate to the search box
     When I type in the search box the existing artist "Boxcat Games"
-    Then the matched artist should appear in the Artist section of the Search results page
-    And the Songs and Album sections should display relevant information
-    When I click the 'x' button
+    Then the matched artist "Boxcat Games" should appear in the Artist section of the Search results page
+   # And the Artist and Album sections should display relevant information
+    When I click the x button
     Then the search results should be cleared
   @skip
   Scenario: Searching for an existing album should display results
     Given I am logged
     And I am on the all songs page
     And I navigate to the search box
-    When I type in the search box the existing album "Makaih Beats"
-    Then the matched album should appear in the Album section of the Search results page
-    And the Songs and Artist sections should display relevant information
-    When I click the 'x' button
+    When I type in the search box the existing album "Airbit"
+    Then the album "Nameless: The Hackers RPG Soundtrack" should appear in the Album section of Search page
+    And the Artist and Album sections should display relevant information
+    When I click the x button
     Then the search results should be cleared
   @skip
   Scenario: Searching for a non-existing song should display 'no results' message

@@ -21,7 +21,7 @@ public class AllSongsPage extends BasePage{
     public By playOption = By.cssSelector("li.playback");
     public By songTitle=  By. xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[12]/td[2]");
     public By songArtist=  By. xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[12]/td[3]");
-    public By songAlbum=  By. xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[12]/td[4]");
+    public By songAlbum=  By. xpath("//*[@id='queueWrapper']/div/div/div[1]/table/tr[2]/td[4]");
 
 
     //Page Methods
