@@ -16,16 +16,17 @@ public class HomePage extends BasePage {
     }
 
     // Locators
-    By userAvatarIcon = By.cssSelector("img.avatar");
-    By allSongsList = By.cssSelector("li a.songs");
-    By createPlaylist = By.cssSelector("section#playlists i[role='button']");
-    By selectNewPlaylist = By.xpath("//*[@id='playlists']/nav/ul/li[1]");
-    By selectNewSmartPlaylist = By.xpath("//*[@id='playlists']/nav/ul/li[2]");
-    By nameInputField = By.cssSelector("input[name='name']");
-    By errorMessage = By.cssSelector("div.error.show");
-    By successMessage = By.cssSelector("div.success.show");
+    // Locators
+    public By userAvatarIcon = By.cssSelector("img.avatar");
+    public By allSongsList = By.cssSelector("li a.songs");
+    public By createPlaylist = By.cssSelector("section#playlists i[role='button']");
+    public By selectNewPlaylist = By.xpath("//*[@id='playlists']/nav/ul/li[1]");
+    public By selectNewSmartPlaylist = By.xpath("//*[@id='playlists']/nav/ul/li[2]");
+    public By nameInputField = By.cssSelector("input[name='name']");
+    public By errorMessage = By.cssSelector("div.error.show");
+    public By successMessage = By.cssSelector("div.success.show");
 
-    // Methods
+
     public WebElement getUserAvatar() {
         return findElement(userAvatarIcon);
     }

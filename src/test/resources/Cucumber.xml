@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="Cucumber">
+<suite name="Cucumber" thread-count="1" parallel="false">
     <test name="Example Test" preserve-order="false">
         <classes>
             <class name="CucumberRunner"/>

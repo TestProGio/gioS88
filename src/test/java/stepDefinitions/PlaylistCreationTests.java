@@ -6,69 +6,48 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.asserts.SoftAssert;
 import pages.HomePage;
 import pages.LoginPage;
-
-import java.time.Duration;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import utils.WebDriverManagerUtil;
 
 public class PlaylistCreationTests {
 
-    WebDriver driver;
-    WebDriverWait wait;
-    HomePage homePage;
-    LoginPage loginPage;
-    SoftAssert softAssert;
-
+    private WebDriverManagerUtil webDriverManager;
+    private HomePage homePage;
+    private LoginPage loginPage;
+    private SoftAssert softAssert;
 
     @Before
     public void setUp() throws InterruptedException {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        options.addArguments("--remote-allow-origins=*");
-        driver = new ChromeDriver(options);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        homePage = new HomePage(driver); // Initialize HomePage
-        loginPage = new LoginPage(driver); // Initialize LoginPage
+        webDriverManager = new WebDriverManagerUtil();
+        webDriverManager.setup();
+        homePage = new HomePage(webDriverManager.getDriver()); // Initialize HomePage
+        loginPage = new LoginPage(webDriverManager.getDriver()); // Initialize LoginPage
         softAssert = new SoftAssert(); // Initialize SoftAssert
-        Thread.sleep(1000);
     }
 
     @After
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+        webDriverManager.tearDown();
     }
 
-    /*
-    Scenario 1: User creates a new playlist successfully
-    */
     @Given("I am logged in")
     public void iAmLoggedIn() throws InterruptedException {
-        driver.get("https://qa.koel.app/"); // Replace with actual login URL
-        loginPage.validLogin(); // Use the method from LoginPage
-        wait.until(ExpectedConditions.urlContains("/home")); // Update with the actual URL or condition for successful login
+        webDriverManager.getDriver().get("https://qa.koel.app/");
+        loginPage.validLogin();
+        webDriverManager.getWait().until(ExpectedConditions.urlContains("/home"));
         Thread.sleep(1000);
     }
 
     @Given("The user is on the Playlist creation page")
     public void theUserIsOnThePlaylistCreationPage() throws InterruptedException {
-        driver.get("https://qa.koel.app/");
+        webDriverManager.getDriver().get("https://qa.koel.app/");
         System.out.println("Browser opened website");
         Thread.sleep(1000);
-
         homePage.initiateNewPlaylistCreation();
         System.out.println("Initiated the 'Create New Playlist' process");
     }
@@ -78,7 +57,7 @@ public class PlaylistCreationTests {
         homePage.selectPlaylistType(false); // Assuming 'false' represents 'New Playlist'
         Thread.sleep(1000);
     }
-    // 4. And The user enters and submits a valid playlist name {string}
+
     @When("The user enters and submits a valid playlist name {string}")
     public void theUserEntersAndSubmitsAValidPlaylistName(String playlistName) throws InterruptedException {
         homePage.enterAndSubmitPlaylistName(playlistName);
@@ -94,14 +73,14 @@ public class PlaylistCreationTests {
 
     @Then("The playlist {string} should be displayed in the app")
     public void thePlaylistShouldBeDisplayedInTheApp(String playlistName) throws InterruptedException {
-        WebElement playlistElement = driver.findElement(By.xpath("//a[text()='" + playlistName + "']"));
+        WebElement playlistElement = webDriverManager.getDriver().findElement(By.xpath("//a[text()='" + playlistName + "']"));
         softAssert.assertTrue(playlistElement.isDisplayed(), "The playlist '" + playlistName + "' is not displayed.");
         Thread.sleep(1000);
     }
 
     @When("The user enters and submits an existing playlist name {string}")
     public void theUserEntersAndSubmitsAnExistingPlaylistName(String playlistName) throws InterruptedException {
-        homePage.enterAndSubmitPlaylistName(playlistName); // Reuse the method for entering and submitting a playlist name
+        homePage.enterAndSubmitPlaylistName(playlistName);
         Thread.sleep(1000);
     }
 
@@ -115,7 +94,6 @@ public class PlaylistCreationTests {
         }
     }
 
-    // Scenario 3: User tries to create a playlist with an invalid name
     @And("The user enters and submits an invalid name")
     public void theUserEntersAndSubmitsAnInvalidPlaylistName() {
         String[] invalidPlaylistNames = {"A", "B", "Go", "abcdefghijk"};
@@ -126,7 +104,6 @@ public class PlaylistCreationTests {
                 homePage.selectPlaylistType(false);
                 homePage.enterAndSubmitPlaylistName(playlistName);
 
-
                 boolean isNameTooShort = playlistName.length() < 3;
                 boolean isNameTooLong = playlistName.length() > 10;
 
@@ -135,7 +112,7 @@ public class PlaylistCreationTests {
                 boolean errorMessageDisplayed = homePage.isErrorMessageDisplayed();
 
                 if (isNameTooShort || isNameTooLong) {
-                    softAssert.assertFalse(successMessageDisplayed, "Playlist with invalid name '" + playlistName + "' should not have been created. No red border shown.");
+                    softAssert.assertFalse(successMessageDisplayed, "Playlist with invalid name '" + playlistName + "' should not have been created.");
                     Thread.sleep(1000);
                     softAssert.assertTrue(errorMessageDisplayed, "Error message should be displayed for invalid name '" + playlistName + "'.");
                 } else {
@@ -150,7 +127,6 @@ public class PlaylistCreationTests {
         softAssert.assertAll();
     }
 
-
     @Then("The playlist should not be created")
     public void thePlaylistShouldNotBeCreated() {
         boolean isErrorMessageDisplayed = homePage.isErrorMessageDisplayed();
@@ -160,7 +136,4 @@ public class PlaylistCreationTests {
             System.out.println("Error message is displayed as expected.");
         }
     }
-
 }
-
-
