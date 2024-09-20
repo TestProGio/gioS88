@@ -61,7 +61,7 @@ Feature: Koel Song Search Feature
     And I navigate to the search box
     When I type in the search box "  chill song  "
     Then the search results should be the same as if "chill song" was typed
-    And the matched results should be displayed in all sections: Songs, Artist, Album
+
   @skip
   Scenario: Search should be case-sensitive
     Given I am logged

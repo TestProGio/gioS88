@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class SearchPage extends BasePage {
+    public By header1SearchPage= By.xpath("//*[@id='searchExcerptsWrapper']/header/div[2]/h1/span/strong");
     public By searchInputField = By.cssSelector("div#searchForm > input[name='q']");
     public By searchBoxButton = By.cssSelector(" //input[@class='dirty']");
     //searchBoxButton: Trouble getting button location. You must input and clear
@@ -22,6 +23,16 @@ public class SearchPage extends BasePage {
     }
 
     // Methods
+    public String getH1SearchResults() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Adjust the timeout as needed
+            WebElement headerOneSearch = wait.until(ExpectedConditions.visibilityOfElementLocated(header1SearchPage));
+            return headerOneSearch.getText();
+        } catch (NoSuchElementException | TimeoutException e) {
+            // Return an empty string or a specific message indicating no element found
+            return "";
+        }
+    }
     public String getNoSongSearchResultsText() {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Adjust the timeout as needed
@@ -74,18 +85,6 @@ public class SearchPage extends BasePage {
        }
    }
 
-
-
-    /*
-     try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Adjust the timeout as needed
-            WebElement noArtistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(searchNoArtistFoundMessage));
-            return noArtistElement.getText();
-        } catch (NoSuchElementException | TimeoutException e) {
-            // Return an empty string or a specific message indicating no element found
-            return "";
-        }
-     */
 
     public void enterAndSearchArtist(String searchArtist) {
         // Input Artist Name to search

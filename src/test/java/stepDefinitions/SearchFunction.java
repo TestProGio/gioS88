@@ -35,6 +35,8 @@ public class SearchFunction {
     public String albumName;
     public String badSongName;
     public String badSongResult;
+    public String whiteSpaceStrg;
+    public String expectedSongName;
 
     @Before
     public void setUp() throws InterruptedException {
@@ -284,6 +286,32 @@ public class SearchFunction {
         // Final report: All "None found." messages confirmed for song, artist, and album
         Reporter.log("Confirming Empty List for: Song, Artist, and Album for invalid song search.", true);
     }
+//5
+    //Scenario: Search should ignore leading and trailing white spaces
+    @When("I type in the search box {string}")
+    public void iTypeInTheSearchBox(String whiteSpaceStrg) {
+        // Store the song name for later comparisons
+        this.whiteSpaceStrg = whiteSpaceStrg;
+
+        // Perform the search on the Search page
+        searchPage.enterAndSearchSong(whiteSpaceStrg);
+        Reporter.log("Step: I enter and search for the song '" + whiteSpaceStrg + "'.", true);
+    }
+
+    @Then("the search results should be the same as if {string} was typed")
+    public void theSearchResultsShouldBeTheSameAsIfWasTyped(String expectedSongName) {
+        // Retrieve the actual search results from the Search Page
+        String actualHeaderResults = searchPage.getH1SearchResults();
+
+        // Compare the actual result to the expected result without spaces
+        if (actualHeaderResults.equals(expectedSongName)) {
+            Reporter.log("Success: Search results for the input with leading/trailing spaces match the result for '" + expectedSongName + "'.", true);
+        } else {
+            Reporter.log("Failure: Search results for the input with leading/trailing spaces did not match the expected result. Expected: '" + expectedSongName + "', but found: '" + actualHeaderResults + "'.", true);
+            Assert.fail("Search results mismatch.");
+        }
+    }
+
 }
 
 
