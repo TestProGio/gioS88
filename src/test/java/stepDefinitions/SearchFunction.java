@@ -34,6 +34,7 @@ public class SearchFunction {
     public String artistName;
     public String albumName;
     public String badSongName;
+    public String badSongResult;
 
     @Before
     public void setUp() throws InterruptedException {
@@ -246,83 +247,45 @@ public class SearchFunction {
 
         // Perform the search on the Search page
         searchPage.enterAndSearchSong(badSongName);
-        Reporter.log("Step: I search for the song '" + badSongName + "'.", true);
-
-        // Check for the "None found." message
-        String noResultsMessage = searchPage.getNoSongSearchResultsText();
-
-        if (noResultsMessage.equals("None found.")) {
-            Reporter.log("No results found for song: " + songName + ". 'None found.' message displayed as expected.", true);
-        } else {
-            Reporter.log("Unexpected message: " + noResultsMessage, true);
-            Assert.fail("Expected 'None found.' message, but found: " + noResultsMessage);
-        }
+        Reporter.log("Step: I enter and search for the song '" + badSongName + "'.", true);
     }
-}
 
-    /*public void iTypeInTheSearchBoxTheNonExistingSong(String songName) {
-        // Store the song name for later comparisons
-        this.badSongName = songName;
-
-        // Perform the search on the Search page
-        searchPage.enterAndSearchSong(songName);
-        Reporter.log("Step: I search for the song '" + songName + "'.", true);
-
-        // Attempt to locate song results first
-        try {
-            WebElement songResult = searchPage.getSongSearchResults();
-            Reporter.log("Valid Song Name found: " + songResult.getText(), true);
-        } catch (TimeoutException e) {
-            // If no valid song results are found, check for "None found." message
-            String noResultsMessage = searchPage.getNoSongSearchResultsText();
-            if (noResultsMessage.equals("None found.")) {
-                Reporter.log("No results found for song: " + songName + ". 'None found.' message displayed as expected.", true);
-            } else {
-                Reporter.log("An unexpected result was found: " + noResultsMessage, true);
-            }
-        }
-    }
-}
-*/
-
-
-   /* public void iTypeInTheSearchBoxTheNonExistingSong(String badSongName) {
-        // Store the song name for later comparisons
-        this.badSongName = badSongName;
-
-        // Perform the search on the Search page
-        searchPage.enterAndSearchSong(badSongName);
-        Reporter.log("Step: I search for the song '" + badSongName + "'.", true);
-
-        // Check for the "None found." message
-        String noResultsMessage = searchPage.getNoSongSearchResultsText();
-
-        if (noResultsMessage.equals("None found.")) {
-            Reporter.log("No results found for song: " + songName + ". 'None found.' message displayed as expected.", true);
-        } else {
-            Reporter.log("Unexpected message: " + noResultsMessage, true);
-            Assert.fail("Expected 'None found.' message, but found: " + noResultsMessage);
-        }
-    }
-}
-*/
-
-    /*
-
-
-    @Then("the search results page should show an empty list")
+    @Then("the search results page should show an empty list with None found message")
     public void theSearchResultsPageShouldShowAnEmptyList() {
-        // Ensure the song appears in the Search Results page
-        WebElement badSongResult = searchPage.getSongSearchResults();
-        softAssert.assertNotNull(badSongResult, "No song results found for the search");
+        // Check for the "None found." messages
+        String noResultsSongSection = searchPage.getNoSongSearchResultsText();
+        String noResultsArtistSection = searchPage.getNoArtistSearchResultsText();
+        String noResultsAlbumSection = searchPage.getNoAlbumSearchResultsText();
 
-        Reporter.log("Step: The matched song appeared in the Songs section of the Search results page.", true);
+        // Check for song result
+        if (noResultsSongSection.equals("None found.")) {
+            Reporter.log("Empty section for song: " + badSongName + ". 'None found.' message for song.", true);
+        } else {
+            Reporter.log("Unexpected message in song section: " + noResultsSongSection, true);
+            Assert.fail("Expected 'None found.' message for song, but found: " + noResultsSongSection);
+        }
+
+        // Check for artist result
+        if (noResultsArtistSection.equals("None found.")) {
+            Reporter.log("Empty section for artist: 'None found.' message for artist.", true);
+        } else {
+            Reporter.log("Unexpected message in artist section: " + noResultsArtistSection, true);
+            Assert.fail("Expected 'None found.' message for artist, but found: " + noResultsArtistSection);
+        }
+
+        // Check for album result
+        if (noResultsAlbumSection.equals("None found.")) {
+            Reporter.log("Empty section for album: 'None found.' for album.", true);
+        } else {
+            Reporter.log("Unexpected message in album section: " + noResultsAlbumSection, true);
+            Assert.fail("Expected 'None found.' message for album, but found: " + noResultsAlbumSection);
+        }
+
+        // Final report: All "None found." messages confirmed for song, artist, and album
+        Reporter.log("Confirming Empty List for: Song, Artist, and Album for invalid song search.", true);
     }
+}
 
 
-    //@And("the message {string} should be displayed in all sections")
-    //public void theMessageShouldBeDisplayedInAllSections(String arg0) {
-    //
-    }
-     */
+
 
