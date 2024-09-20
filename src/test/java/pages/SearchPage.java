@@ -13,9 +13,9 @@ public class SearchPage extends BasePage {
     public By searchResultsSong = By.xpath("//div/div/section[1]/ul/article/span[2]/span[1]");
     public By searchResultsArtist = By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p");
     public By searchResultsAlbum = By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[3]/p");
-    public By searchNoArtistFoundMessage= By.xpath("//*[@id='searchExcerptsWrapper']//section[@class='artists']/p[.='None found.']");
-    public By searchNoAlbumFoundMessage= By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[3]/p[.='None found.']");
-    public By searchNoSongFoundMessage= By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[1]/p[.='None found.']");
+    public By searchNoArtistFoundMessage= By.xpath("//section[@id='searchExcerptsWrapper']//section[@class='artists']/p[.='None found.']");
+    public By searchNoAlbumFoundMessage= By.xpath("//section[@id='searchExcerptsWrapper']//section[@class='albums']/p[.='None found.']");
+    public By searchNoSongFoundMessage= By.xpath("//section[@id='searchExcerptsWrapper']//section[@class='songs']/p[.='None found.']");
 
     public SearchPage(WebDriver givenDriver) {
         super(givenDriver);
@@ -61,8 +61,31 @@ public class SearchPage extends BasePage {
         nameInput.sendKeys(searchSong);
         nameInput.sendKeys(Keys.RETURN); // Simulate pressing Enter key
     }
-    public WebElement getSongSearchResults() {
-        return findElement(searchResultsSong);}
+   // public WebElement getSongSearchResults() {
+     //   return findElement(searchResultsSong);
+    //}
+   public WebElement getSongSearchResults() {
+       try {
+           WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Adjust the timeout as needed
+           return wait.until(ExpectedConditions.visibilityOfElementLocated(searchResultsSong));
+       } catch (NoSuchElementException | TimeoutException e) {
+           // Handle the case where the element is not found; return null or throw an exception
+           return null; // or you can throw a custom exception
+       }
+   }
+
+
+
+    /*
+     try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Adjust the timeout as needed
+            WebElement noArtistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(searchNoArtistFoundMessage));
+            return noArtistElement.getText();
+        } catch (NoSuchElementException | TimeoutException e) {
+            // Return an empty string or a specific message indicating no element found
+            return "";
+        }
+     */
 
     public void enterAndSearchArtist(String searchArtist) {
         // Input Artist Name to search

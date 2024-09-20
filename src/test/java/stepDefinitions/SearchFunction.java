@@ -6,14 +6,21 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.asserts.SoftAssert;
 import pages.AllSongsPage;
 import pages.LoginPage;
 import pages.SearchPage;
 import utils.WebDriverManagerUtil;
+
+import java.time.Duration;
+import java.util.NoSuchElementException;
 
 public class SearchFunction {
     private WebDriverManagerUtil webDriverManager;
@@ -26,6 +33,7 @@ public class SearchFunction {
     public String songName;
     public String artistName;
     public String albumName;
+    public String badSongName;
 
     @Before
     public void setUp() throws InterruptedException {
@@ -43,6 +51,7 @@ public class SearchFunction {
         webDriverManager.tearDown();
         Reporter.log("Step: Teardown completed.", true);
     }
+
     //1
 //Scenario: Searching for an existing song should display results
     @Given("I am logged")
@@ -167,16 +176,17 @@ public class SearchFunction {
         Reporter.log("Step: Cleared the search input field.", true);
     }
 
-@Then("the search results should be cleared")
-public void theSearchResultsShouldBeCleared() {
-    WebElement searchBox = searchPage.findElement(searchPage.searchInputField);
-    softAssert.assertTrue(searchBox.getAttribute("value").isEmpty(), "Search box is not cleared");
-    Reporter.log("Step: The search results were cleared.", true);
+    @Then("the search results should be cleared")
+    public void theSearchResultsShouldBeCleared() {
+        WebElement searchBox = searchPage.findElement(searchPage.searchInputField);
+        softAssert.assertTrue(searchBox.getAttribute("value").isEmpty(), "Search box is not cleared");
+        Reporter.log("Step: The search results were cleared.", true);
 
-    // Call assertAll to evaluate soft assertions
-    softAssert.assertAll();
-}
-//2
+        // Call assertAll to evaluate soft assertions
+        softAssert.assertAll();
+    }
+
+    //2
     //Scenario: Searching for an existing artist should display results
     @When("I type in the search box the existing artist {string}")
     public void iTypeInTheSearchBoxTheExistingArtist(String artistName) {
@@ -186,6 +196,7 @@ public void theSearchResultsShouldBeCleared() {
         searchPage.enterAndSearchArtist(artistName);
         Reporter.log("Step: I type in the search box the existing artist '" + artistName + "'.", true);
     }
+
     @Then("the matched artist {string} should appear in the Artist section of the Search results page")
     public void theMatchedArtistShouldAppearInTheArtistSectionOfTheSearchResultsPage(String artistName) {
         WebElement artistElement = searchPage.getArtistSearchResults();
@@ -200,15 +211,16 @@ public void theSearchResultsShouldBeCleared() {
             Reporter.log("Unexpected result: Message " + artistText + ", expected " + artistName, true);
         }
     }
+
     //3
 //Scenario: Searching for an existing album should display results
     @When("I type in the search box the existing album {string}")
     public void iTypeInTheSearchBoxTheExistingAlbum(String albumName) {// Store the song name for later comparisons
         this.albumName = albumName;
-    // Perform the search on the Search page
+        // Perform the search on the Search page
         searchPage.enterAndSearchAlbum(albumName);
         Reporter.log("Step: I type in the search box an existing album '" + albumName + "'.", true);
-}
+    }
 
     @Then("the album {string} should appear in the Album section of Search page")
     public void theAlbumShouldAppearInTheAlbumSectionOfSearchPage(String albumName) {
@@ -224,11 +236,93 @@ public void theSearchResultsShouldBeCleared() {
             Reporter.log("Unexpected result: Message " + albumText + ", expected " + albumName, true);
         }
     }
+
+    //4
+//Scenario: Searching for a non-existing song should display 'no results' message
+    @When("I type in the search box the non-existing song {string}")
+    public void iTypeInTheSearchBoxTheNonExistingSong(String badSongName) {
+        // Store the song name for later comparisons
+        this.badSongName = badSongName;
+
+        // Perform the search on the Search page
+        searchPage.enterAndSearchSong(badSongName);
+        Reporter.log("Step: I search for the song '" + badSongName + "'.", true);
+
+        // Check for the "None found." message
+        String noResultsMessage = searchPage.getNoSongSearchResultsText();
+
+        if (noResultsMessage.equals("None found.")) {
+            Reporter.log("No results found for song: " + songName + ". 'None found.' message displayed as expected.", true);
+        } else {
+            Reporter.log("Unexpected message: " + noResultsMessage, true);
+            Assert.fail("Expected 'None found.' message, but found: " + noResultsMessage);
+        }
+    }
+}
+
+    /*public void iTypeInTheSearchBoxTheNonExistingSong(String songName) {
+        // Store the song name for later comparisons
+        this.badSongName = songName;
+
+        // Perform the search on the Search page
+        searchPage.enterAndSearchSong(songName);
+        Reporter.log("Step: I search for the song '" + songName + "'.", true);
+
+        // Attempt to locate song results first
+        try {
+            WebElement songResult = searchPage.getSongSearchResults();
+            Reporter.log("Valid Song Name found: " + songResult.getText(), true);
+        } catch (TimeoutException e) {
+            // If no valid song results are found, check for "None found." message
+            String noResultsMessage = searchPage.getNoSongSearchResultsText();
+            if (noResultsMessage.equals("None found.")) {
+                Reporter.log("No results found for song: " + songName + ". 'None found.' message displayed as expected.", true);
+            } else {
+                Reporter.log("An unexpected result was found: " + noResultsMessage, true);
+            }
+        }
+    }
+}
+*/
+
+
+   /* public void iTypeInTheSearchBoxTheNonExistingSong(String badSongName) {
+        // Store the song name for later comparisons
+        this.badSongName = badSongName;
+
+        // Perform the search on the Search page
+        searchPage.enterAndSearchSong(badSongName);
+        Reporter.log("Step: I search for the song '" + badSongName + "'.", true);
+
+        // Check for the "None found." message
+        String noResultsMessage = searchPage.getNoSongSearchResultsText();
+
+        if (noResultsMessage.equals("None found.")) {
+            Reporter.log("No results found for song: " + songName + ". 'None found.' message displayed as expected.", true);
+        } else {
+            Reporter.log("Unexpected message: " + noResultsMessage, true);
+            Assert.fail("Expected 'None found.' message, but found: " + noResultsMessage);
+        }
+    }
+}
+*/
+
+    /*
+
+
+    @Then("the search results page should show an empty list")
+    public void theSearchResultsPageShouldShowAnEmptyList() {
+        // Ensure the song appears in the Search Results page
+        WebElement badSongResult = searchPage.getSongSearchResults();
+        softAssert.assertNotNull(badSongResult, "No song results found for the search");
+
+        Reporter.log("Step: The matched song appeared in the Songs section of the Search results page.", true);
     }
 
 
-
-
-
-
+    //@And("the message {string} should be displayed in all sections")
+    //public void theMessageShouldBeDisplayedInAllSections(String arg0) {
+    //
+    }
+     */
 
