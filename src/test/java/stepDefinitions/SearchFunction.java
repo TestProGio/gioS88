@@ -37,6 +37,9 @@ public class SearchFunction {
     public String badSongResult;
     public String whiteSpaceStrg;
     public String expectedSongName;
+    public String lowercaseSong;
+    public String uppercaseSong;
+    public String mixedcaseSong;
 
     @Before
     public void setUp() throws InterruptedException {
@@ -84,7 +87,6 @@ public class SearchFunction {
     public void iTypeInTheSearchBoxTheExistingSong(String songName) {
         // Store the song name for later comparisons
         this.songName = songName;
-
         // Perform the search on the Search page
         searchPage.enterAndSearchSong(songName);
         Reporter.log("Step: I type in the search box the existing song '" + songName + "'.", true);
@@ -311,9 +313,41 @@ public class SearchFunction {
             Assert.fail("Search results mismatch.");
         }
     }
+    //6
+    //Scenario: Search should be case-sensitive
+    @When("I type in the search box the song {string} in lowercase")
+    public void iTypeInTheSearchBoxTheSongInLowercase(String lowercaseSong) {
+        // Store the song name for later comparisons
+        this.lowercaseSong = lowercaseSong;
 
+        // Perform the search on the Search page
+        searchPage.enterAndSearchSong(lowercaseSong);
+        Reporter.log("Step: I enter a song in lowercase and search for the song '" + lowercaseSong + "'.", true);
+    }
+
+    @Then("no results should be displayed")
+    public void noResultsShouldBeDisplayed()
+    {
+        // Ensure the song appears in the Search Results page
+        WebElement songIncorrectCase = searchPage.getSongSearchResults();
+        softAssert.assertNotNull(songIncorrectCase, "Song found in search results regardless of case");
+        Reporter.log("Step: Defect found! The matched song appeared in the Songs section of the Search results page.", true);
+    }
+    @When("I type in the search box the song {string} in uppercase")
+    public void iTypeInTheSearchBoxTheSongInUppercase(String uppercaseSong) {
+        // Store the song name for later comparisons
+        this.uppercaseSong = uppercaseSong;
+        // Perform the search on the Search page
+        searchPage.enterAndSearchSong(uppercaseSong);
+        Reporter.log("Step: I enter a song in uppercase and search for the song '" + uppercaseSong + "'.", true);
+    }
+
+    @When("I type in the search box the song {string} in mixedcase")
+    public void iTypeInTheSearchBoxTheSongInMixedcase(String mixedcaseSong) {
+        // Store the song name for later comparisons
+        this.mixedcaseSong = mixedcaseSong;
+        // Perform the search on the Search page
+        searchPage.enterAndSearchSong(mixedcaseSong);
+        Reporter.log("Step: I enter a song in mixed case and search for the song '" + mixedcaseSong + "'.", true);
+    }
 }
-
-
-
-
