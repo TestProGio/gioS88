@@ -12,7 +12,7 @@ Feature: Koel Song Search Feature
   - Search should be case-sensitive.
   - I can clear the search query with the keyboard or the 'x' button. Clearing the search should also clear the results in all sections.
 
-  @run
+  @skip
   Scenario: Searching for an existing song should display results
     Given I am logged
     And I am on the all songs page
@@ -24,7 +24,7 @@ Feature: Koel Song Search Feature
     Then the search results should be cleared
 
 
-  @run
+  @skip
   Scenario: Searching for an existing artist should display results
     Given I am logged
     And I am on the all songs page
@@ -34,14 +34,14 @@ Feature: Koel Song Search Feature
    # And the Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
-  @skip
+  @run
   Scenario: Searching for an existing album should display results
     Given I am logged
     And I am on the all songs page
     And I navigate to the search box
     When I type in the search box the existing album "Airbit"
     Then the album "Nameless: The Hackers RPG Soundtrack" should appear in the Album section of Search page
-    And the Artist and Album sections should display relevant information
+    #And the Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
   @skip

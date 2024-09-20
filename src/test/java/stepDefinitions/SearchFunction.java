@@ -43,6 +43,7 @@ public class SearchFunction {
         webDriverManager.tearDown();
         Reporter.log("Step: Teardown completed.", true);
     }
+    //1
 //Scenario: Searching for an existing song should display results
     @Given("I am logged")
     public void iAmLoggedIn() {
@@ -175,8 +176,7 @@ public void theSearchResultsShouldBeCleared() {
     // Call assertAll to evaluate soft assertions
     softAssert.assertAll();
 }
-
-
+//2
     //Scenario: Searching for an existing artist should display results
     @When("I type in the search box the existing artist {string}")
     public void iTypeInTheSearchBoxTheExistingArtist(String artistName) {
@@ -197,10 +197,36 @@ public void theSearchResultsShouldBeCleared() {
         } else if (artistText.equals(artistName)) {
             Reporter.log("Artist name appeared: " + artistText, true);
         } else {
-            Reporter.log("Unexpected result: found " + artistText + ", expected " + artistName, true);
+            Reporter.log("Unexpected result: Message " + artistText + ", expected " + artistName, true);
         }
     }
+    //3
+//Scenario: Searching for an existing album should display results
+    @When("I type in the search box the existing album {string}")
+    public void iTypeInTheSearchBoxTheExistingAlbum(String albumName) {// Store the song name for later comparisons
+        this.albumName = albumName;
+    // Perform the search on the Search page
+        searchPage.enterAndSearchAlbum(albumName);
+        Reporter.log("Step: I type in the search box an existing album '" + albumName + "'.", true);
 }
+
+    @Then("the album {string} should appear in the Album section of Search page")
+    public void theAlbumShouldAppearInTheAlbumSectionOfSearchPage(String albumName) {
+        WebElement albumElement = searchPage.getAlbumSearchResults();
+        String albumText = albumElement.getText();  // Fetch the text from the artist element
+
+        if (albumText.equals("None found")) {
+            Reporter.log("Valid Album Name not appearing in search results. Expected Results: " + albumName + ", but found: " + albumText, true);
+            //
+        } else if (albumText.equals(albumName)) {
+            Reporter.log("Album name appeared: " + albumText, true);
+        } else {
+            Reporter.log("Unexpected result: Message " + albumText + ", expected " + albumName, true);
+        }
+    }
+    }
+
+
 
 
 
