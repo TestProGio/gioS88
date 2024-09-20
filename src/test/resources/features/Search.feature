@@ -12,65 +12,58 @@ Feature: Koel Song Search Feature
   - Search should be case-sensitive.
   - I can clear the search query with the keyboard or the 'x' button. Clearing the search should also clear the results in all sections.
 
-  #@skip
+
   @run
   Scenario: Searching for an existing song should display results
     Given I am logged
-    And I am on the all songs page
+    And I am on the home page
     And I navigate to the search box
     When I type in the search box the existing song "Epic Song"
     Then the matched song should appear in the Songs section of the Search results page
-   # And the Artist and Album sections should display relevant information
+    And the Song, Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
 
-
-  #@skip
   @run
   Scenario: Searching for an existing artist should display results
     Given I am logged
-    And I am on the all songs page
+    And I am on the home page
     And I navigate to the search box
     When I type in the search box the existing artist "Boxcat Games"
     Then the matched artist "Boxcat Games" should appear in the Artist section of the Search results page
-   # And the Artist and Album sections should display relevant information
+   # And the Song, Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
-  #@skip
-  @run
+ @run
   Scenario: Searching for an existing album should display results
     Given I am logged
-    And I am on the all songs page
+    And I am on the home page
     And I navigate to the search box
     When I type in the search box the existing album "Airbit"
     Then the album "Nameless: The Hackers RPG Soundtrack" should appear in the Album section of Search page
-    #And the Artist and Album sections should display relevant information
+    #And the Song, Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
 
-
- #@skip
   @run
   Scenario: Searching for a non-existing song should display 'no results' message
     Given I am logged
-    And I am on the all songs page
+    And I am on the home page
     And I navigate to the search box
     When I type in the search box the non-existing song "NamMyoHO"
     Then the search results page should show an empty list with None found message
 
-  #@skip
-  @run
+ @run
   Scenario: Search should ignore leading and trailing white spaces
     Given I am logged
-    And I am on the all songs page
+    And I am on the home page
     And I navigate to the search box
     When I type in the search box "  chill song  "
     Then the search results should be the same as if "chill song" was typed
-
-  @run
+ @run
   Scenario: Search should be case-sensitive
     Given I am logged
-    And I am on the all songs page
+    And I am on the home page
     And I navigate to the search box
     When I type in the search box the song "bornking" in lowercase
     Then no results should be displayed
@@ -78,6 +71,7 @@ Feature: Koel Song Search Feature
     Then no results should be displayed
     When I type in the search box the song "BOrnkInG" in mixedcase
     Then no results should be displayed
+
 
 
 

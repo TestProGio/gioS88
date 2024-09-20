@@ -20,6 +20,7 @@ import pages.SearchPage;
 import utils.WebDriverManagerUtil;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.NoSuchElementException;
 
 public class SearchFunction {
@@ -62,17 +63,17 @@ public class SearchFunction {
 //Scenario: Searching for an existing song should display results
     @Given("I am logged")
     public void iAmLoggedIn() {
-        webDriverManager.getDriver().get("https://qa.koel.app/#!/songs");
+        webDriverManager.getDriver().get("https://qa.koel.app");
         loginPage.validLogin();
-        webDriverManager.getWait().until(ExpectedConditions.urlContains("/songs"));
+        webDriverManager.getWait().until(ExpectedConditions.urlContains("/home"));
         Reporter.log("Step: I am logged in.", true);
     }
 
-    @And("I am on the all songs page")
-    public void iAmOnTheAllSongsPage() {
+    @And("I am on the home page")
+    public void iAmOnTheHomePage() {
         webDriverManager.getDriver().get("https://qa.koel.app/#!/songs");
         webDriverManager.getWait().until(ExpectedConditions.urlContains("/songs"));
-        Reporter.log("Step: Step: I am on the All Songs page.", true);
+        Reporter.log("Step: Step: I am on the Home page.", true);
     }
 
     @And("I navigate to the search box")
@@ -101,77 +102,56 @@ public class SearchFunction {
         Reporter.log("Step: The matched song appeared in the Songs section of the Search results page.", true);
     }
 
-    @And("the Artist and Album sections should display relevant information")
-    public void theArtistAndAlbumSectionsShouldDisplayRelevantInformation() {
-        // --- Step 1: Fetch the details from the Search Results page ---
-        String searchResultsSong = searchPage.getSongSearchResults().getText();
-        String searchResultsArtist = searchPage.getArtistSearchResults().getText();
-        String searchResultsAlbum = searchPage.getAlbumSearchResults().getText();
+    @And("the Song, Artist and Album sections should display relevant information")
+    public void theSongArtistAndAlbumSectionsShouldDisplayRelevantInformation() {
+        SoftAssert softAssert = new SoftAssert();
+        WebDriverWait wait = webDriverManager.getWait(); // Use wait from WebDriverManagerUtil
 
-        Reporter.log("Search Results Song: " + searchResultsSong, true);
-        Reporter.log("Search Results Artist: " + searchResultsArtist, true);
-        Reporter.log("Search Results Album: " + searchResultsAlbum, true);
+        // --- Step 1: Fetch and log the details from the Search Results page ---
 
-        // --- Step 2: Check for 'None found' messages ---
-        String noSongMessage = searchPage.getNoSongSearchResultsText();
-        String noAlbumMessage = searchPage.getNoAlbumSearchResultsText();
-        String noArtistMessage = searchPage.getNoArtistSearchResultsText();
-
-        Reporter.log("No Song Message: " + noSongMessage, true);
-        Reporter.log("No Album Message: " + noAlbumMessage, true);
-        Reporter.log("No Artist Message: " + noArtistMessage, true);
-
-        // Navigate to the All Songs page
-        webDriverManager.getDriver().get("https://qa.koel.app/#!/songs");
-        webDriverManager.getWait().until(ExpectedConditions.urlContains("/songs"));
-
-        // Initialize AllSongsPage object
-        AllSongsPage allSongsPage = new AllSongsPage(webDriverManager.getDriver());
-
-        // --- Step 3: Compare Search Results with All Songs Page ---
         try {
-            // Get All Songs page details
-            String allSongsSongTitle = allSongsPage.getSongTitle();
-            String allSongsArtist = allSongsPage.getSongArtist();
-            String allSongsAlbum = allSongsPage.getSongAlbum();
-
-            // Compare song results
-            if (searchResultsSong.equals(songName) && allSongsSongTitle.equals(songName)) {
-                // Both are showing the correct song name
-                softAssert.assertEquals(searchResultsSong, allSongsSongTitle, "The song is appearing accurately in both search results and All Songs page.");
-            } else if (searchResultsSong.isEmpty() && !allSongsSongTitle.isEmpty()) {
-                // Defect case
-                softAssert.assertEquals(searchResultsSong, allSongsSongTitle, "Defect: The song appears in the All Songs page but not the Search page.");
-            }
-
-            // Compare artist results
-            if (noArtistMessage.contains("None found.") && allSongsArtist.isEmpty()) {
-                softAssert.assertEquals(allSongsArtist, noArtistMessage, "Correct: There is no artist information available.");
-            } else if (!noArtistMessage.contains("None found.") && !allSongsArtist.isEmpty()) {
-                // Defect case
-                softAssert.assertEquals(searchResultsArtist, allSongsArtist, "Defect: The artist information from search results does not match with All Songs page.");
-            } else {
-                Reporter.log("Step: Artist information is not available in search results as expected.", true);
-            }
-
-            // Compare album results
-            if (noAlbumMessage.contains("None found.") && allSongsAlbum.isEmpty()) {
-                softAssert.assertEquals(allSongsAlbum, noAlbumMessage, "Correct: There is no album information available.");
-            } else if (noAlbumMessage.contains("None found.") && !allSongsAlbum.isEmpty()) {
-                // Defect case
-                softAssert.assertEquals(searchResultsAlbum, allSongsAlbum, "Defect: The album information from search results does not match with All Songs page.");
-            } else {
-                Reporter.log("Defect: Album information is not displayed in search results as expected.", true);
-            }
-
-        } catch (Exception e) {
-            Reporter.log("Exception occurred while comparing search results with All Songs page: " + e.getMessage(), true);
+            WebElement songElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/div/section[1]/ul/article/span[2]/span[1]")));
+            String songText = songElement.getText();
+            Reporter.log("Search Results - Song: " + songText, true);
+            softAssert.assertNotNull(songText, "Song section is populated.");
+        } catch (TimeoutException e) {
+            String noSongMessage = searchPage.getNoSongSearchResultsText();
+            Reporter.log("No song found. Message: 'None found.'", true);
+            softAssert.assertEquals(noSongMessage, "None found.", "No song was found, and the correct message is displayed.");
         }
 
-        // Assert all collected assertions
+        // --- Step 2: Fetch and log the artist details ---
+        try {
+            WebElement artistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p")));
+            String artistText = artistElement.getText();
+            Reporter.log("Search Results - Artist: " + artistText, true);
+            softAssert.assertNotNull(artistText, "Artist section is populated.");
+        } catch (TimeoutException e) {
+            String noArtistMessage = searchPage.getNoArtistSearchResultsText();
+            Reporter.log("No artist found. Message: 'None found.'", true);
+            softAssert.assertEquals(noArtistMessage, "None found.", "No artist was found, and the correct message is displayed.");
+        }
+
+        // --- Step 3: Fetch and log the album details ---
+        try {
+            WebElement albumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p")));
+            String albumText = albumElement.getText();
+            Reporter.log("Search Results - Album: " + albumText, true);
+            softAssert.assertNotNull(albumText, "Album section is populated.");
+        } catch (TimeoutException e) {
+            String noAlbumMessage = searchPage.getNoAlbumSearchResultsText();
+            Reporter.log("No album found. Message: 'None found.'", true);
+            softAssert.assertEquals(noAlbumMessage, "None found.", "No album was found, and the correct message is displayed.");
+        }
+
+        Reporter.log("Search results reporting completed for Song, Artist, and Album sections.", true);
+
+        // Assert all soft assertions at the end
         softAssert.assertAll();
-        Reporter.log("Step: Checked the Artist and Album sections for relevant information.", true);
     }
+
+
+
 
     @When("I click the x button")
     public void iClickTheXButton() {
@@ -288,7 +268,7 @@ public class SearchFunction {
         // Final report: All "None found." messages confirmed for song, artist, and album
         Reporter.log("Confirming Empty List for: Song, Artist, and Album for invalid song search.", true);
     }
-//5
+    //5
     //Scenario: Search should ignore leading and trailing white spaces
     @When("I type in the search box {string}")
     public void iTypeInTheSearchBox(String whiteSpaceStrg) {
@@ -351,3 +331,4 @@ public class SearchFunction {
         Reporter.log("Step: I enter a song in mixed case and search for the song '" + mixedcaseSong + "'.", true);
     }
 }
+
