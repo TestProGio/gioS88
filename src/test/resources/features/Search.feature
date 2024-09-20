@@ -31,7 +31,7 @@ Feature: Koel Song Search Feature
     And I navigate to the search box
     When I type in the search box the existing artist "Boxcat Games"
     Then the matched artist "Boxcat Games" should appear in the Artist section of the Search results page
-   # And the Song, Artist and Album sections should display relevant information
+    And the Song, Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
  @run
@@ -41,7 +41,7 @@ Feature: Koel Song Search Feature
     And I navigate to the search box
     When I type in the search box the existing album "Airbit"
     Then the album "Nameless: The Hackers RPG Soundtrack" should appear in the Album section of Search page
-    #And the Song, Artist and Album sections should display relevant information
+    And the Song, Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
 
