@@ -9,9 +9,9 @@ import java.time.Duration;
 public class SearchPage extends BasePage {
    public By header1SearchPage= By.xpath("//*[@id='searchExcerptsWrapper']/header/div[2]/h1/span/strong");
     public By searchInputField = By.cssSelector("div#searchForm > input[name='q']");
-    public By searchResultsSong = By.xpath("//div/div/section[1]/ul/article/span[2]/span[1]");
+    public By searchResultsSong = By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[1]/ul/article/span[2]/span[1]");
     public By searchResultsArtist = By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p");
-    public By searchResultsAlbum = By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p");
+    public By searchResultsAlbum = By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[3]/p");
     public By searchNoArtistFoundMessage= By.xpath("//section[@id='searchExcerptsWrapper']//section[@class='artists']/p[.='None found.']");
     public By searchNoAlbumFoundMessage= By.xpath("//section[@id='searchExcerptsWrapper']//section[@class='albums']/p[.='None found.']");
     public By searchNoSongFoundMessage= By.xpath("//section[@id='searchExcerptsWrapper']//section[@class='songs']/p[.='None found.']");
@@ -100,7 +100,4 @@ public class SearchPage extends BasePage {
     public WebElement getAlbumSearchResults() {
         return findElement(searchResultsAlbum);
     }
-
-
-
 }

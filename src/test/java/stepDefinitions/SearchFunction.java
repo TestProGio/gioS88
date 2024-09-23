@@ -108,12 +108,19 @@ public class SearchFunction {
         WebDriverWait wait = webDriverManager.getWait(); // Use wait from WebDriverManagerUtil
 
         // --- Step 1: Fetch and log the details from the Search Results page ---
-
         try {
-            WebElement songElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div/div/section[1]/ul/article/span[2]/span[1]")));
-            String songText = songElement.getText();
-            Reporter.log("Search Results - Song: " + songText, true);
-            softAssert.assertNotNull(songText, "Song section is populated.");
+            WebElement songElement = searchPage.getSongSearchResults();
+
+            if (songElement != null) {  // Check if songElement is not null
+                String songText = songElement.getText();
+                Reporter.log("Search Results - Song: " + songText, true);
+                softAssert.assertNotNull(songText, "Song section is populated.");
+            } else {
+                // Handle the case where the element is null, similar to "None found."
+                String noSongMessage = searchPage.getNoSongSearchResultsText();
+                Reporter.log("No song found. Message: 'None found.'", true);
+                softAssert.assertEquals(noSongMessage, "None found.", "No song was found, and the correct message is displayed.");
+            }
         } catch (TimeoutException e) {
             String noSongMessage = searchPage.getNoSongSearchResultsText();
             Reporter.log("No song found. Message: 'None found.'", true);
@@ -122,7 +129,8 @@ public class SearchFunction {
 
         // --- Step 2: Fetch and log the artist details ---
         try {
-            WebElement artistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p")));
+            //WebElement artistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p")));
+            WebElement artistElement = searchPage.getArtistSearchResults();
             String artistText = artistElement.getText();
             Reporter.log("Search Results - Artist: " + artistText, true);
             softAssert.assertNotNull(artistText, "Artist section is populated.");
@@ -134,7 +142,8 @@ public class SearchFunction {
 
         // --- Step 3: Fetch and log the album details ---
         try {
-            WebElement albumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p")));
+            //WebElement albumElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='searchExcerptsWrapper']/div/div/section[2]/p")));
+            WebElement albumElement = searchPage.getAlbumSearchResults();
             String albumText = albumElement.getText();
             Reporter.log("Search Results - Album: " + albumText, true);
             softAssert.assertNotNull(albumText, "Album section is populated.");
@@ -149,9 +158,6 @@ public class SearchFunction {
         // Assert all soft assertions at the end
         softAssert.assertAll();
     }
-
-
-
 
     @When("I click the x button")
     public void iClickTheXButton() {
