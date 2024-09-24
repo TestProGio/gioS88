@@ -16,7 +16,6 @@ public class HomePage extends BasePage {
     }
 
     // Locators
-    // Locators
     public By userAvatarIcon = By.cssSelector("img.avatar");
     public By allSongsList = By.cssSelector("li a.songs");
     public By createPlaylist = By.cssSelector("section#playlists i[role='button']");

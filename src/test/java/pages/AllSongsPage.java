@@ -11,7 +11,6 @@ public class AllSongsPage extends BasePage{
 
     //Constructor
     public AllSongsPage(WebDriver givenDriver){
-
         super(givenDriver);
         this.wait = new WebDriverWait(givenDriver,Duration.ofSeconds(20)); // 20 seconds timeout
     }

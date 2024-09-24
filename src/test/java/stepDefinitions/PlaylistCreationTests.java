@@ -23,7 +23,8 @@ public class PlaylistCreationTests {
 
     @Before
     public void setUp() throws InterruptedException {
-        webDriverManager = new WebDriverManagerUtil();
+        // webDriverManager = new WebDriverManagerUtil();
+        webDriverManager = WebDriverManagerUtil.getInstance();
         webDriverManager.setup();
         homePage = new HomePage(webDriverManager.getDriver()); // Initialize HomePage
         loginPage = new LoginPage(webDriverManager.getDriver()); // Initialize LoginPage

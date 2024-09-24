@@ -19,7 +19,8 @@ public class PositiveTests {
     @Before
     public void setUp() throws InterruptedException {
         // Initialize WebDriverManagerUtil and set up WebDriver
-        webDriverManager = new WebDriverManagerUtil();
+       // webDriverManager = new WebDriverManagerUtil();
+        webDriverManager = WebDriverManagerUtil.getInstance();
         webDriverManager.setup();
 
         // Initialize page objects using the WebDriver from WebDriverManagerUtil

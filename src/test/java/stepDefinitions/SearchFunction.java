@@ -44,19 +44,20 @@ public class SearchFunction {
 
     @Before
     public void setUp() throws InterruptedException {
-        webDriverManager = new WebDriverManagerUtil();
+        // webDriverManager = new WebDriverManagerUtil();
+        webDriverManager = WebDriverManagerUtil.getInstance();
         webDriverManager.setup();
         loginPage = new LoginPage(webDriverManager.getDriver());
         searchPage = new SearchPage(webDriverManager.getDriver());
         allSongsPage = new AllSongsPage(webDriverManager.getDriver());
         softAssert = new SoftAssert();
-        Reporter.log("Step: Setup completed.", true);
+        Reporter.log("Step: Setup completed: SearchFunction", true);
     }
 
     @After
     public void tearDown() {
         webDriverManager.tearDown();
-        Reporter.log("Step: Teardown completed.", true);
+        Reporter.log("Step: Teardown completed: SearchFunction", true);
     }
 
     //1
@@ -98,7 +99,6 @@ public class SearchFunction {
         // Ensure the song appears in the Search Results page
         WebElement songResult = searchPage.getSongSearchResults();
         softAssert.assertNotNull(songResult, "No song results found for the search");
-
         Reporter.log("Step: The matched song appeared in the Songs section of the Search results page.", true);
     }
 

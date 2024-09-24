@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+/*
 
 public class WebDriverManagerUtil {
 
@@ -40,3 +41,46 @@ public class WebDriverManagerUtil {
         }
     }
 }
+
+ */
+public class WebDriverManagerUtil {
+    private static WebDriverManagerUtil instance;
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    private WebDriverManagerUtil() {}
+
+    public static synchronized WebDriverManagerUtil getInstance() {
+        if (instance == null) {
+            instance = new WebDriverManagerUtil();
+        }
+        return instance;
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public WebDriverWait getWait() {
+        return wait;
+    }
+
+    public void setup() {
+        if (driver == null) {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-notifications");
+            options.addArguments("--remote-allow-origins=*");
+            driver = new ChromeDriver(options);
+            wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        }
+    }
+
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+            driver = null; // Reset driver instance
+        }
+    }
+}
+
