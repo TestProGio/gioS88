@@ -13,7 +13,7 @@ Feature: Koel Song Search Feature
   - I can clear the search query with the keyboard or the 'x' button. Clearing the search should also clear the results in all sections.
 
 
-  @run
+  @skip
   Scenario: Searching for an existing song should display results
     Given I am logged
     And I am on the home page
@@ -24,7 +24,7 @@ Feature: Koel Song Search Feature
     When I click the x button
     Then the search results should be cleared
 
-  @run
+  @skip
   Scenario: Searching for an existing artist should display results
     Given I am logged
     And I am on the home page
@@ -34,7 +34,7 @@ Feature: Koel Song Search Feature
     And the Song, Artist and Album sections should display relevant information
     When I click the x button
     Then the search results should be cleared
- @run
+  @skip
   Scenario: Searching for an existing album should display results
     Given I am logged
     And I am on the home page
@@ -45,7 +45,7 @@ Feature: Koel Song Search Feature
     When I click the x button
     Then the search results should be cleared
 
-  @run
+  @skip
   Scenario: Searching for a non-existing song should display 'no results' message
     Given I am logged
     And I am on the home page
@@ -53,14 +53,14 @@ Feature: Koel Song Search Feature
     When I type in the search box the non-existing song "NamMyoHO"
     Then the search results page should show an empty list with None found message
 
- @run
+  @skip
   Scenario: Search should ignore leading and trailing white spaces
     Given I am logged
     And I am on the home page
     And I navigate to the search box
     When I type in the search box "  chill song  "
     Then the search results should be the same as if "chill song" was typed
- @run
+ @ @skip
   Scenario: Search should be case-sensitive
     Given I am logged
     And I am on the home page

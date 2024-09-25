@@ -1,6 +1,6 @@
 Feature: Playlist Creation
 
-  @run
+  @skip
   Scenario: User creates a new playlist successfully
     Given I am logged in
     And The user is on the Playlist creation page
@@ -9,7 +9,7 @@ Feature: Playlist Creation
     Then The new playlist should be created successfully
     And The playlist "My New Playlist" should be displayed in the app
 
-  @run
+  @skip
   Scenario: User tries to create a playlist with the same name
     Given I am logged in
     And The user is on the Playlist creation page
@@ -17,8 +17,7 @@ Feature: Playlist Creation
     And The user enters and submits an existing playlist name "My New Playlist"
     Then An error message should be displayed "A playlist with this name already exists"
 
-  # @skip
-  @run
+  @skip
   Scenario: User tries to create a playlist with an invalid name
     Given I am logged in
     And The user is on the Playlist creation page

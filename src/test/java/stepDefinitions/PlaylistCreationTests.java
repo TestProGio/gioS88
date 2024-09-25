@@ -14,7 +14,7 @@ import pages.HomePage;
 import pages.LoginPage;
 import utils.WebDriverManagerUtil;
 
-public class PlaylistCreationTests {
+public class PlaylistCreationTests extends BaseTest{
 
     private WebDriverManagerUtil webDriverManager;
     private HomePage homePage;
@@ -23,17 +23,19 @@ public class PlaylistCreationTests {
 
     @Before
     public void setUp() throws InterruptedException {
-        // webDriverManager = new WebDriverManagerUtil();
-        webDriverManager = WebDriverManagerUtil.getInstance();
-        webDriverManager.setup();
-        homePage = new HomePage(webDriverManager.getDriver()); // Initialize HomePage
-        loginPage = new LoginPage(webDriverManager.getDriver()); // Initialize LoginPage
-        softAssert = new SoftAssert(); // Initialize SoftAssert
+        super.setUp(); // Call the setup method from BaseTest
+
+
+        // Initialize page objects
+        homePage = new HomePage(driver);
+        loginPage = new LoginPage(driver);
+        softAssert = new SoftAssert();
     }
 
     @After
     public void tearDown() {
-        webDriverManager.tearDown();
+        super.tearDown(); // Call the teardown method from BaseTest
+        //Reporter.log("Step: Teardown completed: SearchFunction", true);
     }
 
     @Given("I am logged in")
@@ -55,7 +57,7 @@ public class PlaylistCreationTests {
 
     @When("The user selects the playlist type as New Playlist")
     public void theUserSelectsNewPlaylist() throws InterruptedException {
-        homePage.selectPlaylistType(false); // Assuming 'false' represents 'New Playlist'
+        homePage.selectPlaylistType(false);  // Assuming 'false' represents 'New Playlist'
         Thread.sleep(1000);
     }
 
@@ -69,7 +71,7 @@ public class PlaylistCreationTests {
     public void theNewPlaylistShouldBeCreatedSuccessfully() throws InterruptedException {
         softAssert.assertTrue(homePage.isSuccessMessageDisplayed(), "Success message should be displayed but it is not.");
         Thread.sleep(1000);
-        softAssert.assertAll(); // Assert all soft assertions
+        softAssert.assertAll();
     }
 
     @Then("The playlist {string} should be displayed in the app")

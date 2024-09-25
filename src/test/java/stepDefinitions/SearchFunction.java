@@ -23,7 +23,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.NoSuchElementException;
 
-public class SearchFunction {
+public class SearchFunction extends BaseTest {
     private WebDriverManagerUtil webDriverManager;
     private LoginPage loginPage;
     private SearchPage searchPage;
@@ -44,20 +44,21 @@ public class SearchFunction {
 
     @Before
     public void setUp() throws InterruptedException {
-        // webDriverManager = new WebDriverManagerUtil();
-        webDriverManager = WebDriverManagerUtil.getInstance();
-        webDriverManager.setup();
-        loginPage = new LoginPage(webDriverManager.getDriver());
-        searchPage = new SearchPage(webDriverManager.getDriver());
-        allSongsPage = new AllSongsPage(webDriverManager.getDriver());
+        super.setUp(); // Call the setup method from BaseTest
+
+        // Initialize page objects with the WebDriver instance from BaseTest
+        loginPage = new LoginPage(driver); // Use the 'driver' from BaseTest
+        searchPage = new SearchPage(driver);
+        allSongsPage = new AllSongsPage(driver);
         softAssert = new SoftAssert();
-        Reporter.log("Step: Setup completed: SearchFunction", true);
+
+       // Reporter.log("Step: Setup completed: SearchFunction", true);
     }
 
     @After
     public void tearDown() {
-        webDriverManager.tearDown();
-        Reporter.log("Step: Teardown completed: SearchFunction", true);
+        super.tearDown(); // Call the teardown method from BaseTest
+        //Reporter.log("Step: Teardown completed: SearchFunction", true);
     }
 
     //1
@@ -99,6 +100,7 @@ public class SearchFunction {
         // Ensure the song appears in the Search Results page
         WebElement songResult = searchPage.getSongSearchResults();
         softAssert.assertNotNull(songResult, "No song results found for the search");
+
         Reporter.log("Step: The matched song appeared in the Songs section of the Search results page.", true);
     }
 
@@ -337,4 +339,3 @@ public class SearchFunction {
         Reporter.log("Step: I enter a song in mixed case and search for the song '" + mixedcaseSong + "'.", true);
     }
 }
-

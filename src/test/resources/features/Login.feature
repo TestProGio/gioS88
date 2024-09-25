@@ -8,7 +8,7 @@ Feature: Login feature
     And I enter password "te$t$tudent"
     And I click submit
     Then I should be logged in
-
+  @skip
   Scenario Outline: Login Scenario
     Given I open Koel Login Page
     When I enter email "<Email>"

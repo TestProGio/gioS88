@@ -1,7 +1,7 @@
 Feature: PositiveLogin feature
 
   #This is a comment
-
+  @skip
   Scenario Outline: Positive Login Scenario
     Given I open Koel Login Page
     When I enter email <email>

@@ -20,41 +20,28 @@ import utils.WebDriverManagerUtil;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
-public class FavoritesFunction {
-    private WebDriverManagerUtil webDriverManager;
-    private LoginPage loginPage;
+public class FavoritesFunction extends BaseTest {
     private FavoritesPage favoritesPage;
-    private AllSongsPage allSongsPage;
-    private SoftAssert softAssert;
 
-    // Instance variable to store song name
-    private String songName; // Optional, if needed for additional functionality
+    @Before("@Favorites")
+    public void setUp() throws InterruptedException {
+        super.setUp(); // Call the setup method from BaseTest
 
-@Before
-public void setUp() throws InterruptedException {
-    webDriverManager = WebDriverManagerUtil.getInstance(); // Get the singleton instance
-    webDriverManager.setup(); // Set up WebDriver if not already set up
+        // Initialize page objects with the same WebDriver instance
+        favoritesPage = new FavoritesPage(driver); // Use the 'driver' from BaseTest
+       // Reporter.log("Step: Setup completed : FavoritesFunction", true);
+    }
 
-    // Initialize page objects with the same WebDriver instance
-    loginPage = new LoginPage(webDriverManager.getDriver());
-    favoritesPage = new FavoritesPage(webDriverManager.getDriver());
-    allSongsPage = new AllSongsPage(webDriverManager.getDriver());
-    softAssert = new SoftAssert();
-
-    Reporter.log("Step: Setup completed : FavoritesFunction", true);
-}
-
-
-    @After
+    @After("@Favorites")
     public void tearDown() {
-        webDriverManager.tearDown();
-        Reporter.log("Step: Teardown completed: FavoritesFunction", true);
+        super.tearDown(); // Call the teardown method from BaseTest
+       // Reporter.log("Step: Teardown completed: FavoritesFunction", true);
     }
 
     // Scenario: Favorites Playlist is empty when no songs are saved
     @Given("I'm logged in")
     public void iAmLoggedIn() {
-        webDriverManager.getDriver().get("https://qa.koel.app");
+        driver.get("https://qa.koel.app"); // Use the driver from BaseTest
         loginPage.validLogin();
         webDriverManager.getWait().until(ExpectedConditions.urlContains("/home"));
         Reporter.log("Step: I am logged in.", true);
@@ -62,7 +49,7 @@ public void setUp() throws InterruptedException {
 
     @And("I'm on the home page")
     public void iAmOnTheHomePage() {
-        webDriverManager.getDriver().get("https://qa.koel.app/#!/songs");
+        driver.get("https://qa.koel.app/#!/songs");
         webDriverManager.getWait().until(ExpectedConditions.urlContains("/songs"));
         Reporter.log("Step: I am on the Home page.", true);
     }
@@ -73,30 +60,29 @@ public void setUp() throws InterruptedException {
         Reporter.log("Step: Navigated to the Favorites Playlist page.", true);
     }
 
-@Then("the playlist should be empty")
-public void thePlaylistShouldBeEmpty() {
-    try {
-        // Check if the no favorites message is displayed
-        boolean isEmpty = favoritesPage.isNoFavoritesMessageDisplayed();
+    @Then("the playlist should be empty")
+    public void thePlaylistShouldBeEmpty() {
+        try {
+            // Check if the no favorites message is displayed
+            boolean isEmpty = favoritesPage.isNoFavoritesMessageDisplayed();
 
-        // Report the result based on the check
-        if (isEmpty) {
-            Reporter.log("Step: The Favorites Playlist is confirmed empty.", true);
-        } else {
-            Reporter.log("Step: The Favorites Playlist is not empty!", true);
+            // Report the result based on the check
+            if (isEmpty) {
+                Reporter.log("Step: The Favorites Playlist is confirmed empty.", true);
+            } else {
+                Reporter.log("Step: The Favorites Playlist is not empty!", true);
+            }
+        } catch (TimeoutException e) {
+            // Handle the case where the element is not found within the timeout
+            Reporter.log("Step: Timeout occurred while checking if the Favorites Playlist is empty. " +
+                    "Defect: The Favorites Playlist is NOT empty!", true);
+        } catch (Exception e) {
+            // Handle any unexpected exceptions gracefully
+            Reporter.log("Step: An unexpected error occurred while checking the Favorites Playlist: " +
+                    e.getMessage(), true);
+        } finally {
+            // Always assert all soft assertions if any were made
+            softAssert.assertAll();
         }
-    } catch (TimeoutException e) {
-        // Handle the case where the element is not found within the timeout
-        Reporter.log("Step: Timeout occurred while checking if the Favorites Playlist is empty. " +
-                "Defect: The Favorites Playlist is NOT empty!", true);
-    } catch (Exception e) {
-        // Handle any unexpected exceptions gracefully
-        Reporter.log("Step: An unexpected error occurred while checking the Favorites Playlist: " +
-                e.getMessage(), true);
-    } finally {
-        // Always assert all soft assertions if any were made
-        softAssert.assertAll();
     }
-}
-
 }
