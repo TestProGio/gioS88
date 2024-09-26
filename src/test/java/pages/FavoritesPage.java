@@ -172,11 +172,13 @@ public class FavoritesPage extends BasePage {
     }
 
     // Get the title of a favorite song
-    public String getFavoriteSongTitle() throws InterruptedException {
+    public String getSpecificFavoriteSongTitle() throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOfElementLocated(favoriteSongTitle));
         Thread.sleep(2000); // Pause for 2 seconds
         return driver.findElement(favoriteSongTitle).getText();
     }
+
+
 
     // Click to unlike a favorite song
     public void clickToUnlikeFavorite() throws InterruptedException {
