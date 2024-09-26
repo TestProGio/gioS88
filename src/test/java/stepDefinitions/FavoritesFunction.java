@@ -7,9 +7,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.asserts.SoftAssert;
 import pages.AllSongsPage;
@@ -17,46 +16,52 @@ import pages.LoginPage;
 import pages.FavoritesPage;
 import utils.WebDriverManagerUtil;
 
-import java.time.Duration;
-import java.util.NoSuchElementException;
-
-public class FavoritesFunction extends BaseTest {
+public class FavoritesFunction {
+    private WebDriverManagerUtil webDriverManager;
+    private WebDriver driver;
     private FavoritesPage favoritesPage;
+    private LoginPage loginPage;
+    private SoftAssert softAssert;
 
-    @Before("@Favorites")
+    @Before
     public void setUp() throws InterruptedException {
-        super.setUp(); // Call the setup method from BaseTest
-
-        // Initialize page objects with the same WebDriver instance
-        favoritesPage = new FavoritesPage(driver); // Use the 'driver' from BaseTest
-       // Reporter.log("Step: Setup completed : FavoritesFunction", true);
+        webDriverManager = new WebDriverManagerUtil();
+        webDriverManager.setup();
+        driver = webDriverManager.getDriver();
+        loginPage = new LoginPage(driver);
+        favoritesPage = new FavoritesPage(driver);
+        softAssert = new SoftAssert();
+        Reporter.log("Step: Setup completed : FavoritesFunction", true);
     }
 
-    @After("@Favorites")
+    @After
     public void tearDown() {
-        super.tearDown(); // Call the teardown method from BaseTest
-       // Reporter.log("Step: Teardown completed: FavoritesFunction", true);
+        webDriverManager.tearDown();
+        Reporter.log("Step: Teardown completed: FavoritesFunction", true);
     }
 
     // Scenario: Favorites Playlist is empty when no songs are saved
     @Given("I'm logged in")
-    public void iAmLoggedIn() {
-        driver.get("https://qa.koel.app"); // Use the driver from BaseTest
+    public void iAmLoggedIn() throws InterruptedException {
+        driver.get("https://qa.koel.app");
         loginPage.validLogin();
         webDriverManager.getWait().until(ExpectedConditions.urlContains("/home"));
+        Thread.sleep(2000); // Wait for 2 seconds to see the login process
         Reporter.log("Step: I am logged in.", true);
     }
 
     @And("I'm on the home page")
-    public void iAmOnTheHomePage() {
+    public void iAmOnTheHomePage() throws InterruptedException {
         driver.get("https://qa.koel.app/#!/songs");
         webDriverManager.getWait().until(ExpectedConditions.urlContains("/songs"));
+        Thread.sleep(2000); // Wait for 2 seconds to confirm navigation
         Reporter.log("Step: I am on the Home page.", true);
     }
 
     @When("I navigate to the Favorites Playlist page")
-    public void iNavigateToTheFavoritesPlaylistPage() {
+    public void iNavigateToTheFavoritesPlaylistPage() throws InterruptedException {
         favoritesPage.clickLeftMenuFavorites();
+        Thread.sleep(2000); // Wait for 2 seconds after clicking
         Reporter.log("Step: Navigated to the Favorites Playlist page.", true);
     }
 

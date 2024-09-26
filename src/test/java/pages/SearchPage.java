@@ -95,9 +95,11 @@ public class SearchPage extends BasePage {
     }
 
     public WebElement getArtistSearchResults() {
+
         return findElement(searchResultsArtist);
     }
     public WebElement getAlbumSearchResults() {
+
         return findElement(searchResultsAlbum);
     }
 }

@@ -10,7 +10,7 @@ import pages.HomePage;
 import pages.LoginPage;
 import utils.WebDriverManagerUtil;
 
-public class PositiveTests extends BaseTest{
+public class PositiveTests {
 
     private WebDriverManagerUtil webDriverManager;
     private HomePage homePage;
@@ -18,12 +18,13 @@ public class PositiveTests extends BaseTest{
 
     @Before
     public void setUp() throws InterruptedException {
-        super.setUp(); // Call the setup method from BaseTest
-
+        // Initialize WebDriverManagerUtil and set up WebDriver
+        webDriverManager = new WebDriverManagerUtil();
+        webDriverManager.setup();
 
         // Initialize page objects using the WebDriver from WebDriverManagerUtil
-        homePage = new HomePage(driver);
-        loginPage = new LoginPage(driver);
+        homePage = new HomePage(webDriverManager.getDriver());
+        loginPage = new LoginPage(webDriverManager.getDriver());
     }
 
     @And("I open Koel Login Page")
@@ -63,7 +64,7 @@ public class PositiveTests extends BaseTest{
 
     @After
     public void tearDown() {
-        super.tearDown(); // Call the teardown method from BaseTest
-        //Reporter.log("Step: Teardown completed: SearchFunction", true);
+        // Use WebDriverManagerUtil's tearDown method to quit the driver
+        webDriverManager.tearDown();
     }
 }

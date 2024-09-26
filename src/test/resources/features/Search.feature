@@ -60,7 +60,7 @@ Feature: Koel Song Search Feature
     And I navigate to the search box
     When I type in the search box "  chill song  "
     Then the search results should be the same as if "chill song" was typed
- @ @skip
+ @skip
   Scenario: Search should be case-sensitive
     Given I am logged
     And I am on the home page
