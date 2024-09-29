@@ -3,9 +3,10 @@
     <test name="API Tests">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="apiKoel.KoelLogin"/>
-            <class name="apiKoel.CreateNewPlaylist"/>
+            <!-- <class name="apiKoel.KoelLogin"/>-->
+            <!-- <class name="apiKoel.CreateNewPlaylist"/>-->
             <!-- <class name="apiKoel.UnlikeMultipleSongs"/> -->
+            <class name="apiKoel.LikeSongTest"/>
         </classes>
     </test>
 </suite>

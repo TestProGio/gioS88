@@ -82,6 +82,7 @@ public class WebDriverManagerUtil {
     }
 
     // Method to set up WebDriver with ChromeOptions
+
     public void setup() throws InterruptedException {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
@@ -91,6 +92,7 @@ public class WebDriverManagerUtil {
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         Thread.sleep(1000); // Adding a short delay
     }
+
 
     // Method to tear down the WebDriver
     public void tearDown() {

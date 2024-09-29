@@ -13,7 +13,7 @@ Feature: Koel Song Search Feature
   - I can clear the search query with the keyboard or the 'x' button. Clearing the search should also clear the results in all sections.
 
 
-  @skip
+  @run
   Scenario: Searching for an existing song should display results
     Given I am logged
     And I am on the home page

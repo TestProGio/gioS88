@@ -1,3 +1,4 @@
+
 package stepDefinitions;
 
 import io.cucumber.java.After;
@@ -15,8 +16,7 @@ import pages.LoginPage;
 import pages.FavoritesPage;
 import pages.HomePage;
 import utils.WebDriverManagerUtil;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
+
 
 
 
@@ -55,10 +55,9 @@ public class FavoritesFunction {
     // Scenario: Favorites Playlist is empty when no songs are saved
     @Given("I'm logged in")
     public void iAmLoggedIn() throws InterruptedException {
-        driver.get("https://qa.koel.app");
+        webDriverManager.getDriver().get("https://qa.koel.app");
         loginPage.validLogin();
         webDriverManager.getWait().until(ExpectedConditions.urlContains("/home"));
-        Thread.sleep(3000); // Wait for 2 seconds to see the login process
         Reporter.log("Step: I am logged in.", true);
     }
 
@@ -102,15 +101,15 @@ public class FavoritesFunction {
             softAssert.assertAll();
         }
     }
-//Scenario: User saves songs to their Favorites Playlist
-   @And("I mark songs as favorites")
-   public void iMarkSongsAsFavorites() throws InterruptedException {
-       WebElement likeSpecificSong = homePage.likeSpecificSong();
-       softAssert.assertNotNull(likeSpecificSong, "Epic Song not able to favorite");
-       likeSpecificSong.click();
-       Thread.sleep(3000);
-       Reporter.log("Step: I favorited: Epic song.", true);
-   }
+    //Scenario: User saves songs to their Favorites Playlist
+    @And("I mark songs as favorites")
+    public void iMarkSongsAsFavorites() throws InterruptedException {
+        WebElement likeSpecificSong = homePage.likeSpecificSong();
+        softAssert.assertNotNull(likeSpecificSong, "Epic Song not able to favorite");
+        likeSpecificSong.click();
+        Thread.sleep(3000);
+        Reporter.log("Step: I favorited: Epic song.", true);
+    }
 
     @Then("I should see the songs in my Favorites Playlist")
     public void iShouldSeeTheSongsInMyFavoritesPlaylist() {
@@ -138,4 +137,3 @@ public class FavoritesFunction {
 
     }
 }
-

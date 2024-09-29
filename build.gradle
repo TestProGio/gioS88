@@ -51,11 +51,11 @@ dependencies {
 test {
     useTestNG() {
         //API Testing XML
-        //suites "src/test/resources/APItests.xml" // Use the API test suite XML
+        suites "src/test/resources/APItests.xml" // Use the API test suite XML
 
         // Commenting out Cucumber test suite
-        suites "src/test/resources/Cucumber.xml" // Cucumber test suite
-        systemProperty "browser", System.getProperty("browser")
+        //suites "src/test/resources/Cucumber.xml" // Cucumber test suite
+       // systemProperty "browser", System.getProperty("browser")
 
         // Add ReportNG listeners for enhanced reporting
         listeners = ['org.uncommons.reportng.HTMLReporter', 'org.uncommons.reportng.JUnitXMLReporter']
