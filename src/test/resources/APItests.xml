@@ -6,7 +6,8 @@
             <!-- <class name="apiKoel.KoelLogin"/>-->
             <!-- <class name="apiKoel.CreateNewPlaylist"/>-->
             <!-- <class name="apiKoel.UnlikeMultipleSongs"/> -->
-            <class name="apiKoel.LikeSongTest"/>
+            <!--<class name="apiKoel.LikeSongTest"/>-->
+            <class name="apiKoel.UnlikeSongTest"/>
         </classes>
     </test>
 </suite>
