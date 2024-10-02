@@ -114,6 +114,100 @@ LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
         // Assert all soft assertions
         softAssert.assertAll();
     }
+    // Test method for login with both an invalid email and an invalid password
+    @Test
+    public void testLoginWithInvalidEmailAndPassword() {
+        // Create a LoginRequest object with an invalid email and invalid password
+        LoginRequest loginRequest = new LoginRequest("invalid@testpro.io", "invalidPassword");
 
-    // Additional tests can be added here, such as testing for missing fields in the request
+        // Send a POST request to the login endpoint
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(loginRequest)
+                .when()
+                .post("/api/me")
+                .then()
+                .extract()
+                .response();
+
+        // Assert that the response status code is 401 Unauthorized
+        softAssert.assertEquals(response.getStatusCode(), 401, "Expected status code 401 for invalid credentials, but got 401");
+
+        // Assert all soft assertions
+        softAssert.assertAll();
+    }
+
+    // Test method for login with no email and no password
+    @Test
+    public void testLoginWithNoEmailAndNoPassword() {
+        // Create a LoginRequest object with no email and no password (null or empty)
+        LoginRequest loginRequest = new LoginRequest("", "");
+
+        // Send a POST request to the login endpoint
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(loginRequest)
+                .when()
+                .post("/api/me")
+                .then()
+                .extract()
+                .response();
+
+        // Assert that the response status code is 400 Bad Request
+        softAssert.assertEquals(response.getStatusCode(), 422, "Expected status code 401 for missing email and password, but got 422");
+
+        // Assert all soft assertions
+        softAssert.assertAll();
+    }
+
+    // Test method for login with email and no password
+    @Test
+    public void testLoginWithEmailNoPassword() {
+        // Create a LoginRequest object with a valid email but no password
+        LoginRequest loginRequest = new LoginRequest(validEmail, "");
+
+        // Send a POST request to the login endpoint
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(loginRequest)
+                .when()
+                .post("/api/me")
+                .then()
+                .extract()
+                .response();
+
+        // Assert that the response status code is 400 Bad Request
+        softAssert.assertEquals(response.getStatusCode(), 422, "Expected status code 401 for missing password, but got 422");
+
+        // Assert all soft assertions
+        softAssert.assertAll();
+    }
+
+    // Test method for login with no email and valid password
+    @Test
+    public void testLoginWithNoEmailPassword() {
+        // Create a LoginRequest object with no email and a valid password
+        LoginRequest loginRequest = new LoginRequest("", validPassword);
+
+        // Send a POST request to the login endpoint
+        Response response = given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(loginRequest)
+                .when()
+                .post("/api/me")
+                .then()
+                .extract()
+                .response();
+
+        // Assert that the response status code is 400 Bad Request
+        softAssert.assertEquals(response.getStatusCode(), 422, "Expected status code 401 for missing email, , but got 422");
+
+        // Assert all soft assertions
+        softAssert.assertAll();
+    }
+
 }
