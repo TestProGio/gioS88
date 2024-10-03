@@ -1,7 +1,6 @@
-package apiKoel;
+/*package apiKoel;
 
 import apiKoel.requests.LoginRequest; // Import your LoginRequest class
-import apiKoel.responses.LoginResponse; // Import your LoginResponse class
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -10,6 +9,8 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert; // Import SoftAssert
 
 import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 public class LoginAPITest {
 
@@ -34,59 +35,57 @@ public class LoginAPITest {
         softAssert = new SoftAssert();
     }
 
-    // Test method for successful login
     @Test
     public void testSuccessfulLogin() {
-        // Create a new LoginRequest object with valid credentials
+        // Use the valid credentials initialized in the setUp() method
+        System.out.println("Testing with Email: " + validEmail + " and Password: " + validPassword);
+
+        // Create login request
         LoginRequest loginRequest = new LoginRequest(validEmail, validPassword);
 
-        // Send POST request to login endpoint and capture the response
+        // Send login request
         Response response = given()
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post("/api/me")
+                .post("/api/me") // Ensure this endpoint is correct
                 .then()
                 .extract()
-                .response(); // Extract the response
+                .response();
 
-        // Deserialize response to LoginResponse
-        LoginResponse loginResponse = response.as(LoginResponse.class);
+        // Log the response
+        System.out.println("Response Status Code: " + response.getStatusCode());
+        System.out.println("Response Body: " + response.getBody().asString());
 
-        // Dynamically retrieve the token from the response
-        String token = loginResponse.getToken();
+        // Check for successful response
+        assertEquals(response.getStatusCode(), 200, "Expected status code 200 for valid credentials but found " + response.getStatusCode());
 
-        // Print the token to the console
-        System.out.println("Generated Token: " + token);
-
-        // Use SoftAssert for non-blocking assertions
-        SoftAssert softAssert = new SoftAssert();
-        softAssert.assertNotNull(token, "Token should not be null");
-        softAssert.assertFalse(token.isEmpty(), "Token should not be empty");
-
-        // Assert all soft assertions
-        softAssert.assertAll();
+        // Optionally, check for token presence
+        String token = response.jsonPath().getString("token");
+        assertNotNull(token, "Token should not be null for valid credentials");
     }
 
     // Test method for login with an invalid email
     @Test
     public void testLoginWithInvalidEmail() {
         // Create a LoginRequest object with an invalid email and a valid password
-LoginRequest loginRequest = new LoginRequest("xyz@testpro.io", validPassword);
+        LoginRequest loginRequest = new LoginRequest("xyz@testpro.io", validPassword);
+
         // Send a POST request to the login endpoint
         Response response = given()
                 .contentType(ContentType.JSON)
                 .accept(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post()
+                .post("/api/me") // Ensure endpoint is specified
                 .then()
                 .extract()
                 .response();
 
         // Assert that the response status code is 401 Unauthorized
-        softAssert.assertEquals(response.getStatusCode(), 405, "Expected status code 401 for invalid email but found 405");
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for invalid email but found " + response.getStatusCode());
+
         // Assert all soft assertions
         softAssert.assertAll();
     }
@@ -95,25 +94,26 @@ LoginRequest loginRequest = new LoginRequest("xyz@testpro.io", validPassword);
     @Test
     public void testLoginWithInvalidPassword() {
         // Create a LoginRequest object with a valid email and an invalid password
-LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
-        // Send a POST request to the login endpoint
+        LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
+
         // Send POST request to login endpoint and capture the response
         Response response = given()
                 .contentType(ContentType.JSON)
-                .accept(ContentType.JSON) // Set the accept header
+                .accept(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post()
+                .post("/api/me") // Ensure endpoint is specified
                 .then()
                 .extract()
                 .response();
 
         // Assert that the status code is 401 Unauthorized
-        softAssert.assertEquals(response.getStatusCode(), 405, "Expected status code 401 for invalid password but found 405");
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for invalid password but found " + response.getStatusCode());
 
         // Assert all soft assertions
         softAssert.assertAll();
     }
+
     // Test method for login with both an invalid email and an invalid password
     @Test
     public void testLoginWithInvalidEmailAndPassword() {
@@ -126,13 +126,13 @@ LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
                 .accept(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post("/api/me")
+                .post("/api/me") // Ensure endpoint is specified
                 .then()
                 .extract()
                 .response();
 
         // Assert that the response status code is 401 Unauthorized
-        softAssert.assertEquals(response.getStatusCode(), 401, "Expected status code 401 for invalid credentials, but got 401");
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for invalid credentials but got " + response.getStatusCode());
 
         // Assert all soft assertions
         softAssert.assertAll();
@@ -150,13 +150,13 @@ LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
                 .accept(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post("/api/me")
+                .post("/api/me") // Ensure endpoint is specified
                 .then()
                 .extract()
                 .response();
 
-        // Assert that the response status code is 400 Bad Request
-        softAssert.assertEquals(response.getStatusCode(), 422, "Expected status code 401 for missing email and password, but got 422");
+        // Assert that the response status code is 401 Unauthorized
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for missing email and password but got " + response.getStatusCode());
 
         // Assert all soft assertions
         softAssert.assertAll();
@@ -174,13 +174,13 @@ LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
                 .accept(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post("/api/me")
+                .post("/api/me") // Ensure endpoint is specified
                 .then()
                 .extract()
                 .response();
 
-        // Assert that the response status code is 400 Bad Request
-        softAssert.assertEquals(response.getStatusCode(), 422, "Expected status code 401 for missing password, but got 422");
+        // Assert that the response status code is 401 Unauthorized
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for missing password but got " + response.getStatusCode());
 
         // Assert all soft assertions
         softAssert.assertAll();
@@ -188,7 +188,7 @@ LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
 
     // Test method for login with no email and valid password
     @Test
-    public void testLoginWithNoEmailPassword() {
+    public void testLoginWithNoEmailValidPassword() {
         // Create a LoginRequest object with no email and a valid password
         LoginRequest loginRequest = new LoginRequest("", validPassword);
 
@@ -198,16 +198,122 @@ LoginRequest loginRequest = new LoginRequest(validEmail, "abc88");
                 .accept(ContentType.JSON)
                 .body(loginRequest)
                 .when()
-                .post("/api/me")
+                .post("/api/me") // Ensure endpoint is specified
                 .then()
                 .extract()
                 .response();
 
-        // Assert that the response status code is 400 Bad Request
-        softAssert.assertEquals(response.getStatusCode(), 422, "Expected status code 401 for missing email, , but got 422");
+        // Assert that the response status code is 401 Unauthorized
+        softAssert.assertEquals(response.getStatusCode(), 401, "Defect: Expected status code 401 for missing email but got " + response.getStatusCode());
 
         // Assert all soft assertions
         softAssert.assertAll();
     }
 
 }
+
+ */
+package apiKoel;
+
+import apiKoel.requests.LoginRequest;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import static io.restassured.RestAssured.given;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
+public class LoginAPITest {
+
+    private static final String BASE_URL = "https://qa.koel.app";
+    private String validEmail;
+    private String validPassword;
+    private SoftAssert softAssert;
+
+    @BeforeClass
+    public void setUp() {
+        RestAssured.baseURI = BASE_URL;
+        validEmail = "giovanna.silva@testpro.io"; // Replace with a valid test email
+        validPassword = "2024Sprint3!"; // Replace with a valid test password
+        softAssert = new SoftAssert();
+    }
+
+    @Test
+    public void testSuccessfulLogin() {
+        LoginRequest loginRequest = new LoginRequest(validEmail, validPassword);
+        Response response = sendLoginRequest(loginRequest);
+
+        System.out.println("Response Status Code: " + response.getStatusCode());
+        System.out.println("Response Body: " + response.getBody().asString());
+
+        assertEquals(response.getStatusCode(), 200, "Expected status code 200 for valid credentials but found " + response.getStatusCode());
+        String token = response.jsonPath().getString("token");
+        assertNotNull(token, "Token should not be null for valid credentials");
+    }
+
+    @Test
+    public void testLoginWithInvalidEmail() {
+        LoginRequest loginRequest = new LoginRequest("xyz@testpro.io", validPassword);
+        Response response = sendLoginRequest(loginRequest);
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for invalid email but found " + response.getStatusCode());
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void testLoginWithInvalidPassword() {
+        LoginRequest loginRequest = new LoginRequest(validEmail, "wrongPassword");
+        Response response = sendLoginRequest(loginRequest);
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for invalid password but found " + response.getStatusCode());
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void testLoginWithInvalidEmailAndPassword() {
+        LoginRequest loginRequest = new LoginRequest("invalid@testpro.io", "invalidPassword");
+        Response response = sendLoginRequest(loginRequest);
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for invalid credentials but got " + response.getStatusCode());
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void testLoginWithNoEmailAndNoPassword() {
+        LoginRequest loginRequest = new LoginRequest("", "");
+        Response response = sendLoginRequest(loginRequest);
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for missing email and password but got " + response.getStatusCode());
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void testLoginWithEmailNoPassword() {
+        LoginRequest loginRequest = new LoginRequest(validEmail, "");
+        Response response = sendLoginRequest(loginRequest);
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for missing password but got " + response.getStatusCode());
+        softAssert.assertAll();
+    }
+
+    @Test
+    public void testLoginWithNoEmailValidPassword() {
+        LoginRequest loginRequest = new LoginRequest("", validPassword);
+        Response response = sendLoginRequest(loginRequest);
+        softAssert.assertEquals(response.getStatusCode(), 401, "DEFECT: Expected status code 401 for missing email but got " + response.getStatusCode());
+        softAssert.assertAll();
+    }
+
+    private Response sendLoginRequest(LoginRequest loginRequest) {
+        return given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .body(loginRequest)
+                .when()
+                .post("/api/me")
+                .then()
+                .extract()
+                .response();
+    }
+}
+
+
