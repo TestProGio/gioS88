@@ -8,7 +8,6 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
-
 // Set the Java version to 21
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -16,22 +15,26 @@ java {
 }
 
 dependencies {
-    // TestNG for testing
-    testImplementation 'org.testng:testng:7.8.0'
+    testImplementation group: 'io.rest-assured', name: 'rest-assured', version: '5.5.0'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.9.2'
 
+    // TestNG for testing
+    testImplementation 'org.testng:testng:7.10.2'
     // Selenium for web automation
-    implementation 'org.seleniumhq.selenium:selenium-java:4.7.0'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.25.0'
 
     // WebDriver Manager for handling browser drivers
-    testImplementation 'io.github.bonigarcia:webdrivermanager:5.9.0'
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.8.0'
 
     // Cucumber for BDD testing
     implementation 'io.cucumber:cucumber-testng:7.9.0'
     implementation 'io.cucumber:cucumber-core:7.9.0'
     implementation 'io.cucumber:cucumber-java:7.9.0'
     implementation 'io.cucumber:gherkin:25.0.2'
-
-    // REST Assured for API testing
+// Log4j dependencies
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'  // or the latest version
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0' // or the latest version
+// REST Assured for API testing
     testImplementation 'io.rest-assured:rest-assured:5.5.0'
 
     // JSON parsing for handling JSON responses
@@ -50,22 +53,23 @@ dependencies {
 
 test {
     useTestNG() {
+        suites "src/test/resources/TestSuites/LoginTests.xml"
+
         //API Testing XML
-        suites "src/test/resources/APItests.xml" // Use the API test suite XML
+       // suites "src/test/resources/APItests.xml" // Use the API test suite XML
 
         // Commenting out Cucumber test suite
-        //suites "src/test/resources/Cucumber.xml" // Cucumber test suite
-       // systemProperty "browser", System.getProperty("browser")
+        //suites "src/test/resources/Cucumber.xml"
+        systemProperty "browser", System.getProperty("browser")
 
         // Add ReportNG listeners for enhanced reporting
         listeners = ['org.uncommons.reportng.HTMLReporter', 'org.uncommons.reportng.JUnitXMLReporter']
 
-        // Uncomment below lines to include other suites
-        // suites "src/test/resources/Smoke.xml"
-        // suites "src/test/resources/Regression.xml"
-        // suites "src/test/resources/TestNG.xml"
-    }
 
+        //suites "src/test/resources/Smoke.xml"
+        //suites "src/test/resources/Regression.xml"
+        //suites "src/test/resources/TestNG.xml"
+    }
     // Test logging
     testLogging {
         events "passed", "failed", "skipped"
