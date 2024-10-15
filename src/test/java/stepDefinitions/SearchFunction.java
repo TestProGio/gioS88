@@ -44,8 +44,8 @@ public class SearchFunction {
 
     @Before
     public void setUp() throws InterruptedException {
-        webDriverManager = new WebDriverManagerUtil();
-        webDriverManager.setup();
+        webDriverManager = WebDriverManagerUtil.getInstance();
+
         loginPage = new LoginPage(webDriverManager.getDriver());
         searchPage = new SearchPage(webDriverManager.getDriver());
         allSongsPage = new AllSongsPage(webDriverManager.getDriver());

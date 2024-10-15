@@ -32,7 +32,7 @@ public class FavoritesFunction {
 
 
     public String songTitle;
-
+/*
     @Before
     public void setUp() throws InterruptedException {
         webDriverManager = new WebDriverManagerUtil();
@@ -45,6 +45,30 @@ public class FavoritesFunction {
         softAssert = new SoftAssert();
         Reporter.log("Step: Setup completed : FavoritesFunction", true);
     }
+
+ */
+@Before
+public void setUp() throws InterruptedException {
+    // Get the single instance of WebDriverManagerUtil
+    webDriverManager = WebDriverManagerUtil.getInstance();
+
+    // Retrieve the driver from the WebDriverManagerUtil instance
+    driver = webDriverManager.getDriver();
+
+    // Initialize page objects using the shared driver instance
+    loginPage = new LoginPage(driver);
+    favoritesPage = new FavoritesPage(driver);
+    allSongsPage = new AllSongsPage(driver);
+    homePage = new HomePage(driver);
+
+    // Initialize SoftAssert for assertions
+    softAssert = new SoftAssert();
+
+    // Log setup completion
+    Reporter.log("Step: Setup completed : FavoritesFunction", true);
+}
+
+
 
     @After
     public void tearDown() {

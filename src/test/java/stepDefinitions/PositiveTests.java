@@ -15,7 +15,7 @@ public class PositiveTests {
     private WebDriverManagerUtil webDriverManager;
     private HomePage homePage;
     private LoginPage loginPage;
-
+/*
     @Before
     public void setUp() throws InterruptedException {
         // Initialize WebDriverManagerUtil and set up WebDriver
@@ -27,6 +27,16 @@ public class PositiveTests {
         loginPage = new LoginPage(webDriverManager.getDriver());
     }
 
+ */
+@Before
+public void setUp() throws InterruptedException {
+    // Initialize WebDriverManagerUtil and set up WebDriver
+    webDriverManager = WebDriverManagerUtil.getInstance();
+
+    // Initialize page objects using the WebDriver from WebDriverManagerUtil
+    homePage = new HomePage(webDriverManager.getDriver());
+    loginPage = new LoginPage(webDriverManager.getDriver());
+}
     @And("I open Koel Login Page")
     public void iOpenKoelLoginPage() throws InterruptedException {
         webDriverManager.getDriver().get("https://qa.koel.app/");

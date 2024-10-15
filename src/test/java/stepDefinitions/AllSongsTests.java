@@ -20,7 +20,7 @@ public class AllSongsTests {
     private AllSongsPage allSongsPage;
     private SoftAssert softAssert;
     private LoginPage loginPage;
-
+/*
     @Before
     public void setUp() throws InterruptedException {
         webDriverManager = new WebDriverManagerUtil();
@@ -30,6 +30,17 @@ public class AllSongsTests {
         softAssert = new SoftAssert();
         Reporter.log("Step: Setup completed.", true);
     }
+
+ */
+@Before
+public void setUp() throws InterruptedException {
+    webDriverManager = WebDriverManagerUtil.getInstance();
+    allSongsPage = new AllSongsPage(webDriverManager.getDriver());
+    loginPage = new LoginPage(webDriverManager.getDriver());
+    softAssert = new SoftAssert();
+    Reporter.log("Step: Setup completed.", true);
+}
+
 
     @After
     public void tearDown() {
