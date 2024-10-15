@@ -38,6 +38,7 @@ public class HomePage extends BasePage {
     }
 
     public void chooseAllSongsList() {
+
         findElement(allSongsList).click();
     }
 

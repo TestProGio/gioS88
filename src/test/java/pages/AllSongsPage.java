@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 
 import java.time.Duration;
+import java.util.Optional;
 
 public class AllSongsPage extends BasePage {
 
@@ -19,11 +20,54 @@ public class AllSongsPage extends BasePage {
     public By leftMenuAllSongs = By.cssSelector("ul li a.songs");
     public By firstSong = By.cssSelector(".all-songs tr.song-item:nth-child(1)");
     public By playOption = By.cssSelector("li.playback");
-    public By songTitle = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[*]/td[*]");
-    public By songArtist = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[12]/td[3]");
-    public By songAlbum = By.xpath("//*[@id='queueWrapper']/div/div/div[1]/table/tr[2]/td[4]");
+
+    public By allSongsCount = By.xpath("//span[@class='meta text-secondary']/span[contains(text(), 'songs')]");
+    public By allSongsDuration = By.xpath("//span[@class='meta text-secondary']/span[contains(text(), ':')]\n");
+    ;
+    public By allSongsIDs = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr/td[1]");
+    public By songTitle = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr/td[2]");
+    public By songArtist = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr/td[3]");
+    public By songAlbum = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr/td[4]");
+    public By songsTime = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr/td[5]");
+    public By favButton = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr/td[6]/button");
 
     //Page Methods
+
+
+    public boolean songsHaveID(int index) {
+        // Create a dynamic locator for each song row's ID cell using the index
+        By songIdLocator = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[" + index + "]/td[1]");
+
+        try {
+            // Attempt to find the element; if not found, return false
+            WebElement songElement = wait.until(ExpectedConditions.presenceOfElementLocated(songIdLocator));
+            String idText = songElement.getText().trim();
+
+            // Return true if the ID text is not empty, false otherwise
+            return !idText.isEmpty();
+        } catch (TimeoutException | NoSuchElementException e) {
+            // Return false if the element is not found, allowing the loop to gracefully stop
+            return false;
+        }
+    }
+
+    public int getAllSongsCount() {
+        // Wait until the song count is present and then retrieve the WebElement
+        WebElement songElement = wait.until(ExpectedConditions.presenceOfElementLocated(allSongsCount));
+        String countText = songElement.getText(); // Get the text (e.g., "66 songs")
+
+        // Extract the number from the string
+        String countNumber = countText.split(" ")[0]; // Splitting the string to get the number part
+        return Integer.parseInt(countNumber); // Convert the string number to an integer
+    }
+
+    public String getAllSongsDuration() {
+        // Wait until the song duration is present and then retrieve the WebElement
+        WebElement songElement = wait.until(ExpectedConditions.presenceOfElementLocated(allSongsDuration));
+        return songElement.getText(); // This returns the duration as a string (e.g., "04:32:57")
+    }
+
+
     public WebElement likeSpecificSong() {
         // Wait until the like button is clickable
         wait.until(ExpectedConditions.elementToBeClickable(specificLikeButtonLocator));
@@ -81,27 +125,64 @@ public void likeSong(String songTitle) throws InterruptedException {
         Thread.sleep(2000); // Pause for 2 seconds
     }
 
-    public String getSongTitle() {
+    public String getSongTitle(int index) {
+        // Create a dynamic locator for each song row's title cell using the index
+        By songTitleLocator = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[" + index + "]/td[2]");
 
-        // Wait until the song title is present and then retrieve the WebElement
-        WebElement songElement = wait.until(ExpectedConditions.presenceOfElementLocated(songTitle));
-        return songElement.getText();
+        try {
+            // Wait until the song title element is present
+            WebElement songElement = wait.until(ExpectedConditions.presenceOfElementLocated(songTitleLocator));
+            return songElement.getText().trim(); // Return the title text
+        } catch (TimeoutException | NoSuchElementException e) {
+            return ""; // Return an empty string if the element is not found
+        }
     }
 
-    public String getSongArtist() {
-        //WebElement artistElement = findElement(songArtist);
-        WebElement artistElement = wait.until(ExpectedConditions.presenceOfElementLocated(songArtist));
-        return artistElement.getText();
+    public String getSongArtist(int index) {
+        // Create a dynamic locator for each song row's artist cell using the index
+        By songArtistLocator = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[" + index + "]/td[3]");
+
+        try {
+            // Wait until the artist element is present
+            WebElement artistElement = wait.until(ExpectedConditions.presenceOfElementLocated(songArtistLocator));
+            return artistElement.getText().trim(); // Return the artist's name text
+        } catch (TimeoutException | NoSuchElementException e) {
+            return ""; // Return an empty string if the element is not found
+        }
     }
 
-    public String getSongAlbum() {
-        WebElement albumElement = findElement(songAlbum);
-        return albumElement.getText();
+    public String getSongAlbum(int index) {
+        // Create a dynamic locator for each song row's album cell using the index
+        By songAlbumLocator = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[" + index + "]/td[4]");
+
+        try {
+            // Wait until the album element is present
+            WebElement albumElement = wait.until(ExpectedConditions.presenceOfElementLocated(songAlbumLocator));
+            return albumElement.getText().trim(); // Return the album's name text
+        } catch (TimeoutException | NoSuchElementException e) {
+            return ""; // Return an empty string if the element is not found
+        }
     }
+    public String getSongDuration(int index) {
+        // Create a dynamic locator for each song row's duration cell using the index
+        By songDurationLocator = By.xpath("//*[@id='songsWrapper']/div/div/div[1]/table/tr[" + index + "]/td[5]");
+
+        try {
+            // Wait until the song duration element is present
+            WebElement durationElement = wait.until(ExpectedConditions.presenceOfElementLocated(songDurationLocator));
+            return durationElement.getText().trim(); // Return the duration text
+        } catch (TimeoutException | NoSuchElementException e) {
+            return ""; // Return an empty string if the element is not found
+        }
+    }
+
     public void contextClickFirstSong(){
+
         actions.contextClick(findElement(firstSong)).perform();
     }
+
     public void choosePlayOption(){
+
         findElement(playOption).click();
     }
 
