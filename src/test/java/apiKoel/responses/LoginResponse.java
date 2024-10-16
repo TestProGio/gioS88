@@ -74,21 +74,25 @@ public class LoginResponse {
 
     // Getter for token
     public String getToken() {
+
         return token;
     }
 
     // Setter for token
+
     public void setToken(String token) {
         this.token = token;
     }
 
     // Getter for errorMessage
     public String getErrorMessage() {
+
         return errorMessage;
     }
 
     // Setter for errorMessage
     public void setErrorMessage(String errorMessage) {
+
         this.errorMessage = errorMessage;
     }
 

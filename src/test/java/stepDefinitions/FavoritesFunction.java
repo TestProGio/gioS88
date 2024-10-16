@@ -32,21 +32,7 @@ public class FavoritesFunction {
 
 
     public String songTitle;
-/*
-    @Before
-    public void setUp() throws InterruptedException {
-        webDriverManager = new WebDriverManagerUtil();
-        webDriverManager.setup();
-        driver = webDriverManager.getDriver();
-        loginPage = new LoginPage(driver);
-        favoritesPage = new FavoritesPage(driver);
-        allSongsPage = new AllSongsPage(driver);
-        homePage= new HomePage (driver);
-        softAssert = new SoftAssert();
-        Reporter.log("Step: Setup completed : FavoritesFunction", true);
-    }
 
- */
 @Before
 public void setUp() throws InterruptedException {
     // Get the single instance of WebDriverManagerUtil

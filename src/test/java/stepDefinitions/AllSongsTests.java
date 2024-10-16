@@ -9,7 +9,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Reporter;
-import java.util.Optional;
 import org.testng.asserts.SoftAssert;
 import pages.AllSongsPage;
 import pages.LoginPage;
@@ -20,18 +19,7 @@ public class AllSongsTests {
     private AllSongsPage allSongsPage;
     private SoftAssert softAssert;
     private LoginPage loginPage;
-/*
-    @Before
-    public void setUp() throws InterruptedException {
-        webDriverManager = new WebDriverManagerUtil();
-        webDriverManager.setup();
-        allSongsPage = new AllSongsPage(webDriverManager.getDriver());
-        loginPage = new LoginPage(webDriverManager.getDriver());
-        softAssert = new SoftAssert();
-        Reporter.log("Step: Setup completed.", true);
-    }
 
- */
 @Before
 public void setUp() throws InterruptedException {
     webDriverManager = WebDriverManagerUtil.getInstance();

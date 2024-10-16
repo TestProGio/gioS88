@@ -97,8 +97,10 @@ public class UnlikeSongTest {
         System.out.println("Unlike Response Content-Type: " + unlikeResponse.getContentType());
 
         // Check if the response status is 200 and the Content-Type is JSON
-        if (unlikeResponse.getStatusCode() == 200 && unlikeResponse.getContentType().contains("application/json")) {
-            SongResponse songResponse = unlikeResponse.as(SongResponse.class);
+        if (unlikeResponse.getStatusCode() == 200 && unlikeResponse.
+                getContentType().contains("application/json")) {
+            SongResponse songResponse = unlikeResponse.
+                    as(SongResponse.class);
 
             // Verifications - Unlike action
             Assert.assertFalse(songResponse.isLiked(), "The song should not be marked as liked after unliking");

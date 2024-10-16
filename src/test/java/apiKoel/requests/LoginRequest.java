@@ -81,14 +81,17 @@ public class LoginRequest {
 
     // Getters and Setters
     public String getEmail() {
+
         return email;
     }
 
     public void setEmail(String email) {
+
         this.email = email;
     }
 
     public String getPassword() {
+
         return password;
     }
 
@@ -98,6 +101,7 @@ public class LoginRequest {
 
     // Method to perform login
     public Response performLogin() {
+
         String requestBody = String.format("{\"email\": \"%s\", \"password\": \"%s\"}", email, password);
 
         // Make the POST request and extract the response

@@ -21,17 +21,7 @@ public class PlaylistCreationTests {
     private HomePage homePage;
     private LoginPage loginPage;
     private SoftAssert softAssert;
-/*
-    @Before
-    public void setUp() throws InterruptedException {
-        webDriverManager = new WebDriverManagerUtil();
-        webDriverManager.setup();
-        homePage = new HomePage(webDriverManager.getDriver()); // Initialize HomePage
-        loginPage = new LoginPage(webDriverManager.getDriver()); // Initialize LoginPage
-        softAssert = new SoftAssert(); // Initialize SoftAssert
-    }
 
- */
 @Before
 public void setUp() throws InterruptedException {
     // Get the single instance of WebDriverManagerUtil

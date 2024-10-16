@@ -15,19 +15,7 @@ public class PositiveTests {
     private WebDriverManagerUtil webDriverManager;
     private HomePage homePage;
     private LoginPage loginPage;
-/*
-    @Before
-    public void setUp() throws InterruptedException {
-        // Initialize WebDriverManagerUtil and set up WebDriver
-        webDriverManager = new WebDriverManagerUtil();
-        webDriverManager.setup();
 
-        // Initialize page objects using the WebDriver from WebDriverManagerUtil
-        homePage = new HomePage(webDriverManager.getDriver());
-        loginPage = new LoginPage(webDriverManager.getDriver());
-    }
-
- */
 @Before
 public void setUp() throws InterruptedException {
     // Initialize WebDriverManagerUtil and set up WebDriver
