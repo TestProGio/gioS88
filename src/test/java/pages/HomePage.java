@@ -24,7 +24,7 @@ public class HomePage extends BasePage {
     public By nameInputField = By.cssSelector("input[name='name']");
     public By errorMessage = By.cssSelector("div.error.show");
     public By successMessage = By.cssSelector("div.success.show");
-    public By specificLikeButtonLocator = By.xpath("//*[@id=\"homeWrapper\"]/div/div[1]/section[1]/ol/li[1]/article/span[2]/span[2]/button");
+    public By specificLikeButtonLocator = By.xpath("//*[@id='homeWrapper']/div/div[1]/section[1]/ol/li[1]/article/span[2]/span[2]/button");
 
     //Methods
     public WebElement likeSpecificSong() {
