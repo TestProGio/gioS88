@@ -9,14 +9,14 @@ Feature: Create Smart Playlist
     Given the user is logged into the app
     When the user navigates to the "Create Smart Playlist" page
     And the user sets the playlist name as "<SingleRule Playlist>"
-    And the user selects "<Rule Type>"
-    And the user inputs "<Search>"
+    And the user selects "<Rule Types>"
+    And the user inputs "<SearchThis>"
     And the user saves the Smart playlist
     Then the Smart playlist "<SingleRule Playlist>" should be created successfully
     And songs that match the rule should be listed in the playlist
 
     Examples:
-      | SingleRule Playlist | Rule Type   | Search          |
+      | SingleRule Playlist | Rule Types   | SearchThis          |
       | SPL Valid Song Title| Title       | Pluto           |
       | SPL Valid Album     | Album       | Airbit          |
       | SPL Valid Artist    | Artist      | Makaih Beats    |
@@ -30,15 +30,15 @@ Feature: Create Smart Playlist
     Given the user is logged into the app
     When the user navigates to the "Create Smart Playlist" page
     And the user adds multiple different rules
-    And the user selects "<Rule Type>"
-    And the user inputs "<Search>"
+    And the user selects "<Rule Types>"
+    And the user inputs "<SearchThis>"
     And the user sets the playlist name as "<MultiRule Playlist>"
     And the user saves the Smart playlist
     Then the Smart playlist "<MultiRule Playlist>" should be created successfully
     And songs that match the rules should be listed in the playlist
 
     Examples:
-      | MultiRule Playlist    | Rule Type   | Search                              |
+      | MultiRule Playlist    | Rule Types   | SearchThis                              |
       | SPL MultiRule Playlist| Title       | M33 Project - Emotional Soundtrack  |
       | SPL MultiRule Playlist| Album       | Midnight in Mississippi             |
       | SPL MultiRule Playlist| Artist      | Lobo Loco                           |
@@ -53,14 +53,14 @@ Feature: Create Smart Playlist
     When the user navigates to the "Create Smart Playlist" page
     And the user clicks on the Group button
     And the user sets the playlist name as "<GroupRule Playlist>"
-    And the user selects "<Rule Type>"
-    And the user inputs "<Search>"
+    And the user selects "<Rule Types>"
+    And the user inputs "<SearchThis>"
     And the user saves the Smart playlist
     Then the Smart playlist "<GroupRule Playlist>" should be created successfully
     And songs that match the rules should be listed in the playlist
 
     Examples:
-      | GroupRule Playlist    | Rule Type   | Search          |
+      | GroupRule Playlist    | Rule Types   | SearchThis          |
       | Group Playlist        | Title       | Epic Song       |
       | Group Playlist        | Album       | Till Paradiso   |
       | Group Playlist        | Artist      | Dee Yan-Key     |
