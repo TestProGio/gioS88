@@ -1,4 +1,5 @@
 package pages;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -72,47 +73,21 @@ public class SmartPlayListPage extends BasePage {
     }
 
     /////////////////--RULE SECTION--///////////////////////
-    public WebElement getRuleDropdownTitle() {return driver.findElement(dropdownRuleTitle);}
-    public WebElement getRuleDropdownAlbum() {
-        return driver.findElement(dropdownRuleAlbum);
-    }
-    public WebElement getRuleDropdownArtist() {
-        return driver.findElement(dropdownRuleArtist);
-    }
-    public WebElement getRuleDropdownPlays() {
-        return driver.findElement(dropdownRulePlays);
-    }
-    public WebElement getRuleDropdownLastPlayed() {
-        return driver.findElement(dropdownRuleLastPlayed);
-    }
-    public WebElement getRuleDropdownLengthOfSong() {
-        return driver.findElement(dropdownRuleLength);
-    }
+    public WebElement getRuleDropdownTitle() { return driver.findElement(dropdownRuleTitle); }
+    public WebElement getRuleDropdownAlbum() { return driver.findElement(dropdownRuleAlbum); }
+    public WebElement getRuleDropdownArtist() { return driver.findElement(dropdownRuleArtist); }
+    public WebElement getRuleDropdownPlays() { return driver.findElement(dropdownRulePlays); }
+    public WebElement getRuleDropdownLastPlayed() { return driver.findElement(dropdownRuleLastPlayed); }
+    public WebElement getRuleDropdownLengthOfSong() { return driver.findElement(dropdownRuleLength); }
 
-    public WebElement getRuleDropdownIs() {
-        return driver.findElement(dropdownRuleIs);
-    }
-    public WebElement getRuleDropdownIsNot() {
-        return driver.findElement(dropdownRuleIsNot);
-    }
-    public WebElement getRuleDropdownContains() {
-        return driver.findElement(dropdownRuleContains);
-    }
-    public WebElement getRuleDropdownDoesNotContain() {
-        return driver.findElement(dropdownRuleDoesNotContain);
-    }
-    public WebElement getRuleDropdownBeginsWith() {
-        return driver.findElement(dropdownRuleBeginsWith);
-    }
-    public WebElement getRuleDropdownEndsWith() {
-        return driver.findElement(dropdownRuleEndsWith);
-    }
+    public WebElement getRuleDropdownIs() { return driver.findElement(dropdownRuleIs); }
+    public WebElement getRuleDropdownIsNot() { return driver.findElement(dropdownRuleIsNot); }
+    public WebElement getRuleDropdownContains() { return driver.findElement(dropdownRuleContains); }
+    public WebElement getRuleDropdownDoesNotContain() { return driver.findElement(dropdownRuleDoesNotContain); }
+    public WebElement getRuleDropdownBeginsWith() { return driver.findElement(dropdownRuleBeginsWith); }
+    public WebElement getRuleDropdownEndsWith() { return driver.findElement(dropdownRuleEndsWith); }
 
-
-    public WebElement searchRuleCriteria() {
-        return findElement(ruleSearchCriteria); // Assuming ruleSearchCriteria is defined as a By object.
-    }
-
+    public WebElement searchRuleCriteria() { return findElement(ruleSearchCriteria); }
 
     public void selectRule(String ruleType) {
         // Open the dropdown
@@ -144,45 +119,20 @@ public class SmartPlayListPage extends BasePage {
         }
     }
 
-
     /////////////////--GROUP SECTION--///////////////////////
-    public WebElement getGrpDropdownTitle() {
-        return driver.findElement(dropdownGrpTitle);
-    }
-    public WebElement getGrpDropdownAlbum() {
-        return driver.findElement(dropdownGrpAlbum);
-    }
-    public WebElement getGrpDropdownArtist() {
-        return driver.findElement(dropdownGrpArtist);
-    }
-    public WebElement getGrpDropdownPlays() {
-        return driver.findElement(dropdownGrpPlays);
-    }
-    public WebElement getGrpDropdownLastPlayed() {
-        return driver.findElement(dropdownGrpLastPlayed);
-    }
-    public WebElement getGrpDropdownLengthOfSong() {
-        return driver.findElement(dropdownGrpLength);
-    }
+    public WebElement getGrpDropdownTitle() { return driver.findElement(dropdownGrpTitle); }
+    public WebElement getGrpDropdownAlbum() { return driver.findElement(dropdownGrpAlbum); }
+    public WebElement getGrpDropdownArtist() { return driver.findElement(dropdownGrpArtist); }
+    public WebElement getGrpDropdownPlays() { return driver.findElement(dropdownGrpPlays); }
+    public WebElement getGrpDropdownLastPlayed() { return driver.findElement(dropdownGrpLastPlayed); }
+    public WebElement getGrpDropdownLengthOfSong() { return driver.findElement(dropdownGrpLength); }
 
-    public WebElement getGrpDropdownIs() {
-        return driver.findElement(dropdownGrpIs);
-    }
-    public WebElement getGrpDropdownIsNot() {
-        return driver.findElement(dropdownGrpIsNot);
-    }
-    public WebElement getGrpDropdownContains() {
-        return driver.findElement(dropdownGrpContains);
-    }
-    public WebElement getGrpDropdownDoesNotContain() {
-        return driver.findElement(dropdownGrpDoesNotContain);
-    }
-    public WebElement getGrpDropdownBeginsWith() {
-        return driver.findElement(dropdownGrpBeginsWith);
-    }
-    public WebElement getGrpDropdownEndsWith() {
-        return driver.findElement(dropdownGrpEndsWith);
-    }
+    public WebElement getGrpDropdownIs() { return driver.findElement(dropdownGrpIs); }
+    public WebElement getGrpDropdownIsNot() { return driver.findElement(dropdownGrpIsNot); }
+    public WebElement getGrpDropdownContains() { return driver.findElement(dropdownGrpContains); }
+    public WebElement getGrpDropdownDoesNotContain() { return driver.findElement(dropdownGrpDoesNotContain); }
+    public WebElement getGrpDropdownBeginsWith() { return driver.findElement(dropdownGrpBeginsWith); }
+    public WebElement getGrpDropdownEndsWith() { return driver.findElement(dropdownGrpEndsWith); }
 
     public void searchGrpCriteria(String grpSearchName) {
         WebElement inputName = findElement(grpSearchCriteria);
@@ -190,15 +140,9 @@ public class SmartPlayListPage extends BasePage {
     }
 
     // BUTTONS
-    public void createRule() {
-        driver.findElement(ruleBtn).click();
-    }
-    public void createGroup() {
-        driver.findElement(groupBtn).click();
-    }
-    public void clickSaveButton() {
-        driver.findElement(saveBtn).click();
-    }
+    public void createRule() { driver.findElement(ruleBtn).click(); }
+    public void createGroup() { driver.findElement(groupBtn).click(); }
+    public void clickSaveButton() { driver.findElement(saveBtn).click(); }
 
     // VERIFICATION MESSAGES
     public String getSuccessMessageText() {
@@ -220,3 +164,4 @@ public class SmartPlayListPage extends BasePage {
     }
 
 }
+

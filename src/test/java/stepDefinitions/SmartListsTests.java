@@ -18,8 +18,6 @@ import org.testng.asserts.SoftAssert;
 import pages.*;
 import utils.WebDriverManagerUtil;
 
-import java.time.Duration;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -166,35 +164,16 @@ public void setUp() throws InterruptedException {
         softAssert.assertAll();
     }
 
-//Scenario Outline: Create Smart Playlist with Multiple Rules
-/*
-@And("the user adds multiple different rules with options and inputs")
+    @And("the user adds multiple different rules with options and inputs")
+    public void theUserAddsMultipleDifferentRules(DataTable dataTable) throws InterruptedException {
+        List<Map<String, String>> optionInputList = dataTable.asMaps(String.class, String.class);
 
-public void theUserAddsMultipleDifferentRules() throws InterruptedException {
-    // Hardcoded values for dropdown options and inputs
-    List<Map<String, String>> optionInputList = Arrays.asList(
-            Map.of("Rule Options", "Title", "Input", "M33 Project - Emotional Soundtrack"),
-            Map.of("Rule Options", "Album", "Input", "Midnight in Mississippi"),
-            Map.of("Rule Options", "Artist", "Input", "Lobo Loco"),
-            Map.of("Rule Options", "Plays", "Input", "5"),
-            Map.of("Rule Options", "Title", "Input", "Epic Song")
-    );
+        // Define the locator for the 'Continue' or 'Add rule' button (adjust as per your UI)
+        By continueButtonLocator = By.cssSelector(".rule-group > .btn-add-rule");
 
-    // Proceed with filling the dropdowns and inputs
-    fillMultipleDynamicDropdowns(webDriverManager.getDriver(), optionInputList, By.cssSelector(".rule-group > .btn-add-rule"));
-}
-
- */
-@And("the user adds multiple different rules with options and inputs")
-public void theUserAddsMultipleDifferentRules(DataTable dataTable) throws InterruptedException {
-    // Convert the Gherkin table into a list of maps (key: Rule Options, value: Input)
-    List<Map<String, String>> optionInputList = dataTable.asMaps(String.class, String.class);
-
-    // Proceed with filling the dropdowns and inputs
-    fillMultipleDynamicDropdowns(webDriverManager.getDriver(), optionInputList, By.cssSelector(".rule-group > .btn-add-rule"));
-}
-
-
+        // Call the method to fill the dropdowns and inputs
+        fillMultipleDynamicDropdowns(webDriverManager.getDriver(), optionInputList, continueButtonLocator);
+    }
     public void fillMultipleDynamicDropdowns(WebDriver driver, List<Map<String, String>> optionInputList, By continueButtonLocator) throws InterruptedException {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         SoftAssert softAssert = new SoftAssert(); // Create a SoftAssert instance
@@ -280,96 +259,5 @@ public void theUserAddsMultipleDifferentRules(DataTable dataTable) throws Interr
         // Assert all SoftAssert validations
         softAssert.assertAll();
     }
-
-/*
-    public void fillMultipleDynamicDropdowns(WebDriver driver, List<Map<String, String>> optionInputList, By continueButtonLocator) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        SoftAssert softAssert = new SoftAssert(); // Create a SoftAssert instance
-
-        // Loop through each entry in the list of maps (dropdown option -> input value)
-        for (int i = 0; i < optionInputList.size(); i++) {
-            Map<String, String> entry = optionInputList.get(i);  // Get the current map
-            String optionText = entry.get("Rule Options");        // Fetch the dropdown option
-            String inputValue = entry.get("Input");               // Fetch the corresponding input value
-
-            By dropdownLocator;
-
-            // Determine the correct XPath based on the dropdown option
-            switch (optionText) {
-                case "Title":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]");
-                    break;
-                case "Album":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]");
-                    break;
-                case "Artist":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]");
-                    break;
-                case "Plays":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]");
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid rule option: " + optionText);
-            }
-
-            // Wait for the dropdown to be visible and clickable, then select the option
-            WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownLocator));
-            dropdown.click();
-
-            // Generate the option locator based on the current dropdown selection
-            By optionLocator = null;
-            switch (optionText) {
-                case "Title":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[1]");
-                    break;
-                case "Album":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]/option[2]");
-                    break;
-                case "Artist":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]/option[3]");
-                    break;
-                case "Plays":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]/option[4]");
-                    break;
-            }
-
-            // Wait for the option to be visible and select it
-            WebElement option = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
-            option.click();
-
-            // Pause for observation
-            Thread.sleep(2000); // Sleep for 2 seconds
-
-            // Retrieve the selected option's text
-            String selectedOptionText = dropdown.findElement(By.xpath("option[.//text()='" + optionText + "']")).getText(); // Get the selected option's text
-            softAssert.assertEquals(selectedOptionText, optionText, "Dropdown selection mismatch for: " + optionText); // Soft assert
-
-            // Wait for the corresponding input field based on the current index
-            By inputFieldLocator = By.xpath("//div[@class='rule-group']/div[" + (i + 2) + "]//input[@name='value[]']"); // Note: i + 2 to match divs
-            WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(inputFieldLocator));
-            inputField.clear();
-            inputField.sendKeys(inputValue);
-
-            // Pause for observation
-            Thread.sleep(2000); // Sleep for 2 seconds
-
-            // Verify that the input value has been set correctly
-            String enteredValue = inputField.getAttribute("value");
-            softAssert.assertEquals(enteredValue, inputValue, "Input value mismatch for: " + optionText); // Soft assert
-
-            // Click the continue button only if this is not the last entry
-            if (i < optionInputList.size() - 1) {
-                WebElement continueButton = wait.until(ExpectedConditions.elementToBeClickable(continueButtonLocator));
-                continueButton.click();
-            }
-        }
-
-        // Call the softAssert to verify all assertions
-        //softAssert.assertAll();
-
-
-    }
-
- */
 
 }

@@ -5,7 +5,7 @@ Feature: Create Smart Playlist
 
   # Creating a single rule playlist
   # @smoke @regression
-  @skip
+@skip
   Scenario Outline: Create Smart Playlist with One Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -46,7 +46,7 @@ Feature: Create Smart Playlist
 
     Examples:
       | MultiRule Playlist  |
-      | Mixed Playlist      |
+      | Mixed Playlist 2     |
 
   # Creating a playlist with grouped rules
   @skip
