@@ -50,7 +50,8 @@ import org.testng.annotations.DataProvider;
                 // Uncomment only if you want to include other feature files.
                 // Ensure they do not contain overlapping scenarios to prevent duplicates.
 
-                "src/test/resources/features/AllSongsPage.feature",
+                "src/test/resources/features/SmartPlaylist.feature",
+               // "src/test/resources/features/AllSongsPage.feature",
                 //"src/test/resources/features/Search.feature",
                 // "src/test/resources/features/PlaylistCreation.feature",
                 // "src/test/resources/features/PositiveLogin.feature"

@@ -51,7 +51,7 @@ public void setUp() throws InterruptedException {
     softAssert = new SoftAssert();
 
     // Log setup completion
-    Reporter.log("Step: Setup completed : FavoritesFunction", true);
+    Reporter.log("Step: Setup completed.", true);
 }
 
 
@@ -59,7 +59,7 @@ public void setUp() throws InterruptedException {
     @After
     public void tearDown() {
         webDriverManager.tearDown();
-        Reporter.log("Step: Teardown completed: FavoritesFunction", true);
+        Reporter.log("Step: Teardown completed.", true);
     }
 
     // Scenario: Favorites Playlist is empty when no songs are saved

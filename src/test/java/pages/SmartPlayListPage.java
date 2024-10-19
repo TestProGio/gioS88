@@ -1,9 +1,6 @@
 package pages;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class SmartPlayListPage extends BasePage {
 
@@ -75,9 +72,7 @@ public class SmartPlayListPage extends BasePage {
     }
 
     /////////////////--RULE SECTION--///////////////////////
-    public WebElement getRuleDropdownTitle() {
-        return driver.findElement(dropdownRuleTitle);
-    }
+    public WebElement getRuleDropdownTitle() {return driver.findElement(dropdownRuleTitle);}
     public WebElement getRuleDropdownAlbum() {
         return driver.findElement(dropdownRuleAlbum);
     }
@@ -113,10 +108,42 @@ public class SmartPlayListPage extends BasePage {
         return driver.findElement(dropdownRuleEndsWith);
     }
 
-    public void searchRuleCriteria(String searchName) {
-        WebElement inputName = findElement(ruleSearchCriteria);
-        inputName.sendKeys(searchName);
+
+    public WebElement searchRuleCriteria() {
+        return findElement(ruleSearchCriteria); // Assuming ruleSearchCriteria is defined as a By object.
     }
+
+
+    public void selectRule(String ruleType) {
+        // Open the dropdown
+        WebElement dropdown = findElement(By.cssSelector("select[name='model[]']"));
+        dropdown.click();
+
+        // Select the appropriate option based on the rule type
+        switch (ruleType.toLowerCase()) {
+            case "title":
+                findElement(dropdownRuleTitle).click();
+                break;
+            case "album":
+                findElement(dropdownRuleAlbum).click();
+                break;
+            case "artist":
+                findElement(dropdownRuleArtist).click();
+                break;
+            case "plays":
+                findElement(dropdownRulePlays).click();
+                break;
+            case "last played":
+                findElement(dropdownRuleLastPlayed).click();
+                break;
+            case "length":
+                findElement(dropdownRuleLength).click();
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid rule type: " + ruleType);
+        }
+    }
+
 
     /////////////////--GROUP SECTION--///////////////////////
     public WebElement getGrpDropdownTitle() {
@@ -191,4 +218,5 @@ public class SmartPlayListPage extends BasePage {
             return "";
         }
     }
+
 }

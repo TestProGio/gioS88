@@ -33,9 +33,6 @@ public void setUp() throws InterruptedException {
     softAssert = new SoftAssert(); // Initialize SoftAssert
 
 }
-
-
-
     @After
     public void tearDown() {
         webDriverManager.tearDown();
