@@ -5,7 +5,7 @@ Feature: Create Smart Playlist
 
   # Creating a single rule playlist
   # @smoke @regression
-@skip
+
   Scenario Outline: Create Smart Playlist with One Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -27,6 +27,7 @@ Feature: Create Smart Playlist
       | 6-SPL Valid Length   | Length      | 374             |
 
   # Creating a playlist with multiple rules
+
   Scenario Outline: Create Smart Playlist with Multiple Rules
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -41,35 +42,33 @@ Feature: Create Smart Playlist
       | Plays        | 5                                   |
 
     And the user saves the Smart playlist
-   # Then the Smart playlist "<MultiRule Playlist>" should be created successfully
-   # Then the results should be verified
+    Then the Smart playlist "<MultiRule Playlist>" should be created successfully
+    Then the results should be verified
 
     Examples:
       | MultiRule Playlist  |
       | Mixed Playlist 2     |
 
   # Creating a playlist with grouped rules
-  @skip
   Scenario Outline: Create Smart Playlist with Group
     Given the user is logged into the app
     When the user clicks playlist creation
     And the user selects New Smart Playlist from menu
-    And the user clicks on the Group button
     And the user sets the playlist name as "<GroupRule Playlist>"
-    And the user selects "<Rule Types>"
-    And the user inputs "<SearchThis>"
+    And the user adds Group option with multiple rules options and inputs
+      | Rule Options  | Input           |
+      | Title         | Epic Song       |
+      | Album         | Till Paradiso   |
+      | Artist        | Dee Yan-Key     |
+      | Plays         | 52              |
     And the user saves the Smart playlist
     Then the Smart playlist "<GroupRule Playlist>" should be created successfully
     #Then the results should be verified
 
     Examples:
-      | GroupRule Playlist    | Rule Types   | SearchThis          |
-      | Group Playlist        | Title       | Epic Song       |
-      | Group Playlist        | Album       | Till Paradiso   |
-      | Group Playlist        | Artist      | Dee Yan-Key     |
-      | Group Playlist        | Plays       | 52              |
-      | Group Playlist        | Last Played | 10/16/2024      |
-      | Group Playlist        | Length      | 374             |
+      | GroupRule Playlist   |
+      | GroupPlaylist        |
+
 
   # Creating a playlist with no matching songs
   @skip
@@ -85,7 +84,7 @@ Feature: Create Smart Playlist
 
   # Validating playlist name edge cases
   @skip
-  Scenario Outline: Validate Playlist Name Rules
+  Scenario Outline: Check Playlist For Invalid Name Rules
     Given the user is logged into the app
     When the user clicks playlist creation
     And the user selects New Smart Playlist from menu
