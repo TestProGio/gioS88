@@ -26,7 +26,7 @@ Feature: Create Smart Playlist
       | 5- SPL Valid Played  | Last Played | 10/16/2024      |
       | 6-SPL Valid Length   | Length      | 374             |
 
-  # Creating a playlist with multiple rules
+  # Creating a playlist with multiple mixed rules
 
   Scenario Outline: Create Smart Playlist with Multiple Rules
     Given the user is logged into the app
@@ -43,6 +43,7 @@ Feature: Create Smart Playlist
 
     And the user saves the Smart playlist
     Then the Smart playlist "<MultiRule Playlist>" should be created successfully
+    And "No songs match the playlist's criteria." should not appear for valid entries
     Then the results should be verified
 
     Examples:
@@ -64,6 +65,7 @@ Feature: Create Smart Playlist
       | Plays         | 52              |
     And the user saves the Smart playlist
     Then the Smart playlist "<GroupRule Playlist>" should be created successfully
+    And "No songs match the playlist's criteria." should not appear for valid entries
     Then the results should be verified
 
     Examples:

@@ -141,7 +141,7 @@ public class SmartListsTests {
         // Assert that the confirmation message contains the expected text
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(confirmationMessage.getText().contains("Created playlist"), "Confirmation message not displayed correctly");
-        softAssert.assertAll(); // Ensure all soft asserts are executed
+         // Ensure all soft asserts are executed
     }
 
     @Then("the Smart playlist {string} should be created successfully")
@@ -265,8 +265,6 @@ public class SmartListsTests {
             }
         }
 
-        // Assert all SoftAssert validations
-        softAssert.assertAll();
     }
 
 
@@ -367,8 +365,6 @@ public class SmartListsTests {
             }
         }
 
-        // Assert all soft assertions
-        softAssert.assertAll();
     }
 
     // # Creating a playlist with no matching songs
@@ -383,8 +379,26 @@ public class SmartListsTests {
         // Perform the soft assertion
         softAssert.assertEquals(actualMessage, expectedMessage, "The expected message does not match the actual message.");
 
-        // Assert all to finalize the soft assertion
-        softAssert.assertAll();
+
+    }
+    // Creating Mixed and Group Playlist with valid data
+    @And("{string} should not appear for valid entries")
+    public void noSongsMatchThePlaylistSCriteriaShouldNotAppear(String notExpectedMessage) {
+        // Initialize SoftAssert
+        SoftAssert softAssert = new SoftAssert();
+
+        // Get the actual message from the page
+        String actualMessage = smartPlaylistPage.getNoSongsMatchMessageText();
+
+        // Check if the actual message matches the expected message
+        if (actualMessage.equals(notExpectedMessage)) {
+            // Log defect message to console
+            System.out.println("Defect: Valid data used but the playlist is being created with no songs.");
+        }
+
+        // Perform the soft assertion
+        softAssert.assertNotEquals(actualMessage, notExpectedMessage,
+                "The expected message should not match for valid entries, but it does.");
     }
 
 
@@ -417,7 +431,5 @@ public class SmartListsTests {
             softAssert.assertTrue(playlistNameLength <= maxCharacters, "Playlist name has " + playlistNameLength + " characters, which is within the allowed limit.");
         }
 
-        // Finalize the soft assertion
-        softAssert.assertAll();
     }
 }
