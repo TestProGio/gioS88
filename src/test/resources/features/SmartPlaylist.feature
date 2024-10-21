@@ -5,7 +5,7 @@ Feature: Create Smart Playlist
 
   # Creating a single rule playlist
   # @smoke @regression
-  @skip
+ 
   Scenario Outline: Create Smart Playlist with One Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -26,7 +26,7 @@ Feature: Create Smart Playlist
       | 5-SPL Valid Length   | Length      | 374             |
 
   # Creating a playlist with multiple mixed rules
-  @skip
+
   Scenario Outline: Create Smart Playlist with Multiple Rules
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -50,7 +50,7 @@ Feature: Create Smart Playlist
       | Mixed Playlist 2     |
 
   # Creating a playlist with grouped rules
-@skip
+
   Scenario Outline: Create Smart Playlist with Group
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -73,7 +73,7 @@ Feature: Create Smart Playlist
 
 
   # Creating a playlist with no matching songs
-@skip
+
   Scenario Outline: No Matching Songs for Smart Playlist Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -92,7 +92,7 @@ Feature: Create Smart Playlist
 
 
 # Check for invalid characters and invalid number of chars in a name
-@skip
+
   Scenario Outline: Check Playlist Creation For Naming Rules
     Given the user is logged into the app
     When the user clicks playlist creation
