@@ -15,6 +15,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.asserts.SoftAssert;
 import pages.*;
@@ -167,7 +168,7 @@ public class SmartListsTests {
         softAssert.assertAll();
     }
 
-    @And("the user adds multiple different rules with options and inputs")
+    @And("the user adds multiple different valid rules with options and inputs")
     public void theUserAddsMultipleDifferentRules(DataTable dataTable) throws InterruptedException {
         List<Map<String, String>> optionInputList = dataTable.asMaps(String.class, String.class);
 
@@ -269,7 +270,7 @@ public class SmartListsTests {
 
 
 
-    @And("the user adds Group option with multiple rules options and inputs")
+    @And("the user adds Group option with multiple valid rules options and inputs")
     public void theUserAddsGroupOptionWithMultipleRules(DataTable dataTable) throws InterruptedException {
         List<Map<String, String>> optionInputList = dataTable.asMaps(String.class, String.class);
 
@@ -432,4 +433,44 @@ public class SmartListsTests {
         }
 
     }
+
+    @And("the user has Smart Playlists to delete")
+    public void theUserHasSmartPlaylistsToDelete() {
+        // Locate the Smart Playlists elements
+        List<WebElement> playlists = webDriverManager.getDriver().findElements(homePage.selectFirstSmartPlaylist);
+
+        // Assert that the playlists list is not empty
+        Assert.assertTrue(!playlists.isEmpty(), "Expected to find Smart Playlists to delete, but none were found.");
+    }
+
+    @And("the hoovers over a Smart Playlist from left menu")
+    public void theClicksOnASmartPlaylistFromLeftMenu() throws InterruptedException {
+        homePage.hoverOverSmartPlaylistMenu();
+        // Hoovers over 1st Smart Playlist found logic without selecting delete yet
+        Thread.sleep(2000);
+    }
+
+
+    @And("the user clicks the option to delete")
+    public void theUserRightClicksToTheOptionToDeleteOrEdit() throws InterruptedException {
+        // Here, use the delete option
+        homePage.rightClickToDeleteSmartPlaylist();
+        Thread.sleep(2000);
+    }
+
+    @Then("the Smart playlist should be deleted successfully")
+    public void theSmartPlaylistShouldBeDeletedSuccessfully() {
+        // Check if the success message is displayed
+        boolean isDisplayed = homePage.isSuccessMessageDisplayed();
+
+        // If displayed, retrieve the success message text
+        String successMessageText = isDisplayed ? homePage.getSuccessMessageText() : "";
+
+        // Log the success message for confirmation
+        System.out.println("Success Message is displayed and matches expected results: " + successMessageText);
+
+        // Assert that the success message contains "Deleted"
+        Assert.assertTrue(successMessageText.contains("Deleted"), "Success message does not contain 'Deleted' after deletion");
+    }
+
 }

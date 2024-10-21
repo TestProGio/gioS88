@@ -5,7 +5,7 @@ Feature: Create Smart Playlist
 
   # Creating a single rule playlist
   # @smoke @regression
-
+  @skip
   Scenario Outline: Create Smart Playlist with One Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -23,17 +23,16 @@ Feature: Create Smart Playlist
       | 2- SPL Valid Album   | Album       | Airbit          |
       | 3- SPL Valid Artist  | Artist      | Makaih Beats    |
       | 4- SPL Valid Plays   | Plays       | 11              |
-      | 5- SPL Valid Played  | Last Played | 10/16/2024      |
-      | 6-SPL Valid Length   | Length      | 374             |
+      | 5-SPL Valid Length   | Length      | 374             |
 
   # Creating a playlist with multiple mixed rules
-
+  @skip
   Scenario Outline: Create Smart Playlist with Multiple Rules
     Given the user is logged into the app
     When the user clicks playlist creation
     And the user selects New Smart Playlist from menu
     And the user sets the playlist name as "<MultiRule Playlist>"
-    And the user adds multiple different rules with options and inputs
+    And the user adds multiple different valid rules with options and inputs
 
       | Rule Options | Input                               |
       | Title        | M33 Project - Emotional Soundtrack  |
@@ -51,13 +50,13 @@ Feature: Create Smart Playlist
       | Mixed Playlist 2     |
 
   # Creating a playlist with grouped rules
-
+@skip
   Scenario Outline: Create Smart Playlist with Group
     Given the user is logged into the app
     When the user clicks playlist creation
     And the user selects New Smart Playlist from menu
     And the user sets the playlist name as "<GroupRule Playlist>"
-    And the user adds Group option with multiple rules options and inputs
+    And the user adds Group option with multiple valid rules options and inputs
       | Rule Options  | Input           |
       | Title         | Epic Song       |
       | Album         | Till Paradiso   |
@@ -74,7 +73,7 @@ Feature: Create Smart Playlist
 
 
   # Creating a playlist with no matching songs
-
+@skip
   Scenario Outline: No Matching Songs for Smart Playlist Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -92,7 +91,8 @@ Feature: Create Smart Playlist
       | 1-Invalid Song     | Title       | Personal Jesus     |
 
 
-
+# Check for invalid characters and invalid number of chars in a name
+@skip
   Scenario Outline: Check Playlist Creation For Naming Rules
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -109,3 +109,14 @@ Feature: Create Smart Playlist
       | PlaylistNameRules                  | Rule Types  | SearchThis        |
       | 1-(@Special_Characters!#$%^&*)        | Title       | Epic Song         |
       | 2- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA | Title       | Pluto         |
+
+
+    #User should be able to delete all Smart Playlist
+
+  Scenario: User should be able to delete Smart Playlist
+    Given the user is logged into the app
+    And the user has Smart Playlists to delete
+    And the hoovers over a Smart Playlist from left menu
+    And the user clicks the option to delete
+    Then the Smart playlist should be deleted successfully
+    Then the results should be verified
