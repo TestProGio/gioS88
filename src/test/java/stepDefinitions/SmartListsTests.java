@@ -371,98 +371,27 @@ public class SmartListsTests {
         softAssert.assertAll();
     }
 
-
-    /*
-
-    public void fillGroupDynamicDropdowns(WebDriver driver, List<Map<String, String>> optionInputList, By deleteRuleBtn, By groupButtonLocator) throws InterruptedException {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    // # Creating a playlist with no matching songs
+    @Then("{string} should appear")
+    public void noSongsMatchThePlaylistSCriteriaShouldAppear(String expectedMessage) {
+        // Initialize SoftAssert
         SoftAssert softAssert = new SoftAssert();
 
-        WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(deleteRuleBtn));
-        deleteButton.click();
-        Thread.sleep(1000);
+        // Get the actual message from the page
+        String actualMessage = smartPlaylistPage.getNoSongsMatchMessageText();
 
-        // Click the group button second
-        WebElement groupButton = wait.until(ExpectedConditions.elementToBeClickable(groupButtonLocator));
-        groupButton.click();
+        // Perform the soft assertion
+        softAssert.assertEquals(actualMessage, expectedMessage, "The expected message does not match the actual message.");
 
-        // Wait for the new dropdowns to appear after clicking the group button
-        Thread.sleep(2000); // Adjust this as per your UI loading speed
-
-        // Loop through each entry in the list of maps (dropdown option -> input value)
-        for (int i = 0; i < optionInputList.size(); i++) {
-            Map<String, String> entry = optionInputList.get(i);
-            String optionText = entry.get("Rule Options");  // Fetch the dropdown option
-            String inputValue = entry.get("Input");         // Fetch the corresponding input value
-
-            By dropdownLocator;
-            By optionLocator;
-
-            switch (optionText) {
-                case "Title":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]");
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[1]");
-                    break;
-                case "Album":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]");
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[2]");
-                    break;
-                case "Artist":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]");
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[3]");
-                    break;
-                case "Plays":
-                    dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]");
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[4]");
-                    break;
-                default:
-                    throw new IllegalArgumentException("Invalid group rule option: " + optionText);
-            }
-
-            // Wait for the dropdown to be visible and clickable, then select the option
-            WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownLocator));
-            dropdown.click();
-
-            // Select the option from the dropdown
-            WebElement option = wait.until(ExpectedConditions.visibilityOfElementLocated(optionLocator));
-            option.click();
-
-            // Pause for observation (optional)
-            Thread.sleep(2000); // Sleep for 2 seconds
-
-            // Verify the selected option
-            String selectedOptionText = dropdown.findElement(By.xpath("option[.//text()='" + optionText + "']")).getText();
-            softAssert.assertEquals(selectedOptionText, optionText, "Dropdown selection mismatch for: " + optionText);
-
-            // Wait for the corresponding input field ////div[@id='mainWrapper']//div[@class='smart-playlist-form']/div/form//div[@class='rule-group']/div[" + (i + 2) + "]//input[@name='value[]']
-            By inputFieldLocator =  By.xpath("//div[@class='smart-playlist-form']/div/form//div[@class='rule-group']/div[" + (i + 2) + "]//input[@name='value[]']");
-            WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(inputFieldLocator));
-            inputField.clear();
-            inputField.sendKeys(inputValue);
-
-            // Pause for observation
-            Thread.sleep(2000); // Sleep for 2 seconds
-
-            // Verify that the input value has been set correctly
-            String enteredValue = inputField.getAttribute("value");
-            softAssert.assertEquals(enteredValue, inputValue, "Input value mismatch for: " + optionText);
-
-            // Click the 'Add Rule' button to add the next rule, if it's not the last entry
-            if (i < optionInputList.size() - 1) {
-                By ruleButtonLocator = By.xpath("//div[@class='rule-group']/button[@class='btn-add-rule']");
-                WebElement ruleButton = wait.until(ExpectedConditions.elementToBeClickable(ruleButtonLocator));
-                ruleButton.click();
-
-                // Wait for the new rule dropdowns to appear
-                Thread.sleep(2000);
-            }
-        }
-
-        // Assert all SoftAssert validations
+        // Assert all to finalize the soft assertion
         softAssert.assertAll();
     }
 
- */
+
+
+
+
+
 
 
 }

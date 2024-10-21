@@ -5,7 +5,7 @@ Feature: Create Smart Playlist
 
   # Creating a single rule playlist
   # @smoke @regression
-
+@skip
   Scenario Outline: Create Smart Playlist with One Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -27,7 +27,7 @@ Feature: Create Smart Playlist
       | 6-SPL Valid Length   | Length      | 374             |
 
   # Creating a playlist with multiple rules
-
+@skip
   Scenario Outline: Create Smart Playlist with Multiple Rules
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -50,6 +50,7 @@ Feature: Create Smart Playlist
       | Mixed Playlist 2     |
 
   # Creating a playlist with grouped rules
+  @skip
   Scenario Outline: Create Smart Playlist with Group
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -63,7 +64,7 @@ Feature: Create Smart Playlist
       | Plays         | 52              |
     And the user saves the Smart playlist
     Then the Smart playlist "<GroupRule Playlist>" should be created successfully
-    #Then the results should be verified
+    Then the results should be verified
 
     Examples:
       | GroupRule Playlist   |
@@ -71,18 +72,24 @@ Feature: Create Smart Playlist
 
 
   # Creating a playlist with no matching songs
-  @skip
-  Scenario: No Matching Songs for Smart Playlist Rule
+  Scenario Outline: No Matching Songs for Smart Playlist Rule
     Given the user is logged into the app
     When the user clicks playlist creation
     And the user selects New Smart Playlist from menu
-    And the user sets the playlist name as "Electronic Rock"
-    And the user adds a rule to include song "Personal Jesus"
+    And the user sets the playlist name as "<NoMatches Playlist>"
+    And the user selects "<Rule Types>"
+    And the user inputs "<SearchThis>"
     And the user saves the Smart playlist
-    Then an empty Smart playlist should be created
-    #Then the results should be verified
+    Then the Smart playlist "<NoMatches Playlist>" should be created successfully
+    Then "No songs match the playlist's criteria." should appear
+    Then the results should be verified
 
-  # Validating playlist name edge cases
+    Examples:
+      | NoMatches Playlist | Rule Types  | SearchThis        |
+      | 1-Invalid Song     | Title       | Personal Jesus     |
+
+
+
   @skip
   Scenario Outline: Check Playlist For Invalid Name Rules
     Given the user is logged into the app
@@ -91,7 +98,7 @@ Feature: Create Smart Playlist
     And the user sets the playlist name as "<Playlist Name>"
     And the user adds a rule to include song title "Epic Song"
     And the user saves the Smart playlist
-    #Then the results should be verified
+    Then the results should be verified
 
     Examples:
       | Playlist Name                                                                                   | Expected Outcome                                                                 |

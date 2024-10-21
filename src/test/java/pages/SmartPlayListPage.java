@@ -58,7 +58,7 @@ public class SmartPlayListPage extends BasePage {
     // MESSAGES
     public By noMatchMessage = By.cssSelector("section#playlistWrapper .text");
     public By successMessage = By.cssSelector(".alertify-logs.right.top > .show.success");
-
+    public By noSongsMatch = By.xpath ("//section[@id='playlistWrapper']/div[@class='screen-placeholder']//div[@class='text']");
     /////////////---CONSTRUCTOR-----//////////////////
     public SmartPlayListPage(WebDriver givenDriver) {
         super(givenDriver);
@@ -157,6 +157,14 @@ public class SmartPlayListPage extends BasePage {
     public String getNoMatchMessageText() {
         try {
             WebElement noMatchMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(noMatchMessage));
+            return noMatchMsg.getText();
+        } catch (TimeoutException e) {
+            return "";
+        }
+    }
+    public String getNoSongsMatchMessageText() {
+        try {
+            WebElement noMatchMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(noSongsMatch));
             return noMatchMsg.getText();
         } catch (TimeoutException e) {
             return "";
