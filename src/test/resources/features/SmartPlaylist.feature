@@ -5,7 +5,7 @@ Feature: Create Smart Playlist
 
   # Creating a single rule playlist
   # @smoke @regression
-@skip
+
   Scenario Outline: Create Smart Playlist with One Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -27,7 +27,7 @@ Feature: Create Smart Playlist
       | 6-SPL Valid Length   | Length      | 374             |
 
   # Creating a playlist with multiple rules
-@skip
+
   Scenario Outline: Create Smart Playlist with Multiple Rules
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -50,7 +50,7 @@ Feature: Create Smart Playlist
       | Mixed Playlist 2     |
 
   # Creating a playlist with grouped rules
-  @skip
+
   Scenario Outline: Create Smart Playlist with Group
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -72,6 +72,7 @@ Feature: Create Smart Playlist
 
 
   # Creating a playlist with no matching songs
+
   Scenario Outline: No Matching Songs for Smart Playlist Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -90,17 +91,19 @@ Feature: Create Smart Playlist
 
 
 
-  @skip
-  Scenario Outline: Check Playlist For Invalid Name Rules
+  Scenario Outline: Check Playlist Creation For Naming Rules
     Given the user is logged into the app
     When the user clicks playlist creation
     And the user selects New Smart Playlist from menu
-    And the user sets the playlist name as "<Playlist Name>"
-    And the user adds a rule to include song title "Epic Song"
+    And the user sets the playlist name as "<PlaylistNameRules>"
+    And the user selects "<Rule Types>"
+    And the user inputs "<SearchThis>"
     And the user saves the Smart playlist
+    Then the Smart playlist "<PlaylistNameRules>" should be created successfully
+    And the playlist name cannot have more than 256 characters
     Then the results should be verified
 
     Examples:
-      | Playlist Name                                                                                   | Expected Outcome                                                                 |
-      | (@Special_Characters!#$%^&*)                                                                    | The Smart playlist "(@Special_Characters!#$%^&*)" should be created successfully |
-      | AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA | The app should display an error "Playlist name must be between 1 and 256 characters" |
+      | PlaylistNameRules                  | Rule Types  | SearchThis        |
+      | 1-(@Special_Characters!#$%^&*)        | Title       | Epic Song         |
+      | 2- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA | Title       | Pluto         |

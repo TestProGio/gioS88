@@ -82,7 +82,7 @@ public class SmartListsTests {
     public void theUserSetsThePlaylistNameAs(String playlistName) {
         smartPlaylistPage.enterPlaylistName(playlistName); // Use the method from the SmartPlayListPage class
     }
-
+// Selects from the dropdown of choices
     @And("the user selects {string}")
     public void theUserSelects(String ruleType) {
         switch (ruleType.toLowerCase()) {
@@ -388,10 +388,36 @@ public class SmartListsTests {
     }
 
 
+    @And("the playlist name cannot have more than {int} characters")
+    public void the_playlist_name_cannot_have_more_than_characters(Integer maxCharacters) {
+        // Initialize SoftAssert
+        SoftAssert softAssert = new SoftAssert();
 
+        // Retrieve the actual playlist name from the page
+        String playlistName = smartPlaylistPage.getH1ResultsText();
 
+        // Get the length of the playlist name
+        int playlistNameLength = playlistName.length();
 
+        // Print the number of characters in the playlist name
+        System.out.println("The playlist name has " + playlistNameLength + " characters.");
 
+        // Check if the playlist name exceeds the maximum allowed characters
+        if (playlistNameLength > maxCharacters) {
+            // Print a defect message if it exceeds the limit
+            System.out.println("Defect: The playlist name has " + playlistNameLength + " characters, which exceeds the allowed limit of " + maxCharacters + " characters, and was created in error.");
 
+            // Assert failure if the playlist name is too long
+            softAssert.fail("Playlist name exceeds " + maxCharacters + " characters: " + playlistName);
+        } else {
+            // Print success message if the playlist name is within the limit
+            System.out.println("The playlist name is within the allowed limit of " + maxCharacters + " characters.");
 
+            // Assert success if the playlist name length is valid
+            softAssert.assertTrue(playlistNameLength <= maxCharacters, "Playlist name has " + playlistNameLength + " characters, which is within the allowed limit.");
+        }
+
+        // Finalize the soft assertion
+        softAssert.assertAll();
+    }
 }

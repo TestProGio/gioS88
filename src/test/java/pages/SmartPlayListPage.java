@@ -54,7 +54,8 @@ public class SmartPlayListPage extends BasePage {
     public By ruleBtn = By.cssSelector(".rule-group > .btn-add-rule");
     public By groupBtn = By.cssSelector(".btn-add-group");
     public By saveBtn = By.cssSelector("footer > button:nth-of-type(1)");
-
+    // HEADERS
+    public By h1SmartResultsPage = By.xpath("//*[@id='playlistWrapper']/header/div[2]/h1");
     // MESSAGES
     public By noMatchMessage = By.cssSelector("section#playlistWrapper .text");
     public By successMessage = By.cssSelector(".alertify-logs.right.top > .show.success");
@@ -63,6 +64,7 @@ public class SmartPlayListPage extends BasePage {
     public SmartPlayListPage(WebDriver givenDriver) {
         super(givenDriver);
     }
+
 
     ////////////----METHODS-----////////////////////////
 
@@ -165,6 +167,15 @@ public class SmartPlayListPage extends BasePage {
     public String getNoSongsMatchMessageText() {
         try {
             WebElement noMatchMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(noSongsMatch));
+            return noMatchMsg.getText();
+        } catch (TimeoutException e) {
+            return "";
+        }
+
+    }
+    public String getH1ResultsText() {
+        try {
+            WebElement noMatchMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(h1SmartResultsPage));
             return noMatchMsg.getText();
         } catch (TimeoutException e) {
             return "";
