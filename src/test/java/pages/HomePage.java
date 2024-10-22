@@ -60,7 +60,7 @@ public class HomePage extends BasePage {
         WebElement smartPlaylistMenu = findElement(selectFirstSmartPlaylist);
 
         // Create WebDriverWait object to ensure the element is visible
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOf(smartPlaylistMenu));
 
         // Create a new Actions instance

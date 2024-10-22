@@ -5,7 +5,7 @@ Feature: Create Smart Playlist
 
   # Creating a single rule playlist
   # @smoke @regression
- 
+
   Scenario Outline: Create Smart Playlist with One Rule
     Given the user is logged into the app
     When the user clicks playlist creation
@@ -18,7 +18,7 @@ Feature: Create Smart Playlist
     Then the results should be verified
 
     Examples:
-      | SingleRule Playlist  | Rule Types  | SearchThis          |
+      | SingleRule Playlist  | Rule Types  | SearchThis      |
       | 1- SPL Valid Title   | Title       | Pluto           |
       | 2- SPL Valid Album   | Album       | Airbit          |
       | 3- SPL Valid Artist  | Artist      | Makaih Beats    |
@@ -47,7 +47,7 @@ Feature: Create Smart Playlist
 
     Examples:
       | MultiRule Playlist  |
-      | Mixed Playlist 2     |
+      | Mixed Playlist 2    |
 
   # Creating a playlist with grouped rules
 
@@ -88,7 +88,7 @@ Feature: Create Smart Playlist
 
     Examples:
       | NoMatches Playlist | Rule Types  | SearchThis        |
-      | 1-Invalid Song     | Title       | Personal Jesus     |
+      | 1-Invalid Song     | Title       | Personal Jesus    |
 
 
 # Check for invalid characters and invalid number of chars in a name
@@ -107,12 +107,11 @@ Feature: Create Smart Playlist
 
     Examples:
       | PlaylistNameRules                  | Rule Types  | SearchThis        |
-      | 1-(@Special_Characters!#$%^&*)        | Title       | Epic Song         |
+      | 1-(@Special_Characters!#$%^&*)     | Title       | Epic Song         |
       | 2- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA | Title       | Pluto         |
 
 
     #User should be able to delete all Smart Playlist
-
   Scenario: User should be able to delete Smart Playlist
     Given the user is logged into the app
     And the user has Smart Playlists to delete

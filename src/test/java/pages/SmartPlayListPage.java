@@ -7,6 +7,36 @@ public class SmartPlayListPage extends BasePage {
 
     // NAME THE PLAYLIST
     public By playlistName = By.cssSelector("input[name='name']");
+    //switch (optionText2)
+    public By dropdownLocatorTextTitle = By.xpath("//div[@class='rule-group']/div[2]/select[@name='model[]']");
+    public By dropdownLocatorTextAlbum = By.xpath("//div[@class='rule-group']/div[3]/select[@name='model[]']"); // Second dropdown
+    public By dropdownLocatorTextArtist = By.xpath("//div[@class='rule-group']/div[4]/select[@name='model[]']"); // Third dropdown
+    public By dropdownLocatorTextPlays = By.xpath("//div[@class='rule-group']/div[5]/select[@name='model[]']"); // Fourth dropdown
+
+    public By optionLocatorTextTitle =By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[1]");
+    public By optionLocatorTextAlbum = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]/option[2]");
+    public By optionLocatorTextArtist = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]/option[3]");
+    public By optionLocatorTextPlays = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]/option[4]");
+
+    public By inputFieldLocatorTextTitle = By.xpath("//div/form//div[@class='rule-group']/div[2]//input[@name='value[]']");
+    public By inputFieldLocatorTextAlbum = By.xpath("//div/form//div[@class='rule-group']/div[3]//input[@name='value[]']"); // Album input field
+    public By inputFieldLocatorTextArtist = By.xpath("//div/form//div[@class='rule-group']/div[4]//input[@name='value[]']"); // Artist input field
+    public By inputFieldLocatorTextPlays = By.xpath("//div/form//div[@class='rule-group']/div[5]//input[@name='value[]']"); // Plays input field
+
+
+
+    //switch (optionText1)
+    public By dropdownLocatorTitle = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[2]/select[@name='model[]']");
+    public By dropdownLocatorAlbum = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[3]/select[@name='model[]']");
+    public By dropdownLocatorArtist = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[4]/select[@name='model[]']");
+    public By dropdownLocatorPlays = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[5]/select[@name='model[]']");
+
+    //switch (optionText)
+    public By optionLocatorTitle = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[1]");
+    public By optionLocatorAlbum = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]/option[2]");
+    public By optionLocatorArtist = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]/option[3]");
+    public By optionLocatorPlays = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]/option[4]");
+
 
     // FIRST DROP DOWN - RULES
     public By dropdownRuleTitle = By.cssSelector("select[name='model[]'] option:nth-child(1)");
@@ -51,7 +81,9 @@ public class SmartPlayListPage extends BasePage {
     public By grpSearchCriteria = By.xpath("//div[@class='rule-group']//input[@name='value[]']");
 
     // GENERAL BUTTONS
+    public By deleteBtn = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[@class='row']/button[@class='remove-rule']/i[@class='fa fa-times']");
     public By ruleBtn = By.cssSelector(".rule-group > .btn-add-rule");
+    public By ruleBtn2 =By.xpath("//div/form//div[@class='form-row rules']/div[1]/button[@class='btn-add-rule']");
     public By groupBtn = By.cssSelector(".btn-add-group");
     public By saveBtn = By.cssSelector("footer > button:nth-of-type(1)");
     // HEADERS

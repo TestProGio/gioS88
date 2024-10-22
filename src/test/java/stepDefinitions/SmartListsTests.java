@@ -13,7 +13,6 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.Reporter;
@@ -173,8 +172,7 @@ public class SmartListsTests {
         List<Map<String, String>> optionInputList = dataTable.asMaps(String.class, String.class);
 
         // Define the locator for the 'Add rule' button (adjust as per your UI)
-        By continueButtonLocator = By.xpath("//div/form//div[@class='form-row rules']/div[1]/button[@class='btn-add-rule']");
-
+        By continueButtonLocator = smartPlaylistPage.ruleBtn2;
         // Call the method to fill the dropdowns and inputs
         fillMultipleDynamicDropdowns(webDriverManager.getDriver(), optionInputList, continueButtonLocator);
     }
@@ -194,21 +192,17 @@ public class SmartListsTests {
             // Determine the correct XPath based on the dropdown option
             switch (optionText) {
                 case "Title":// 1st dropdown to include title
-                    //dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]");
-                    //
-                    dropdownLocator = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[2]/select[@name='model[]']");
+                    dropdownLocator =  smartPlaylistPage.dropdownLocatorTitle;
                     break;
+
                 case "Album": // 2nd dropdown to include album
-                    //dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]");
-                    dropdownLocator = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[3]/select[@name='model[]']");
+                    dropdownLocator =  smartPlaylistPage.dropdownLocatorAlbum;
                     break;
                 case "Artist": // 3rd dropdown to include artist
-                    // dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]");
-                    dropdownLocator = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[4]/select[@name='model[]']");
+                    dropdownLocator =  smartPlaylistPage.dropdownLocatorArtist;
                     break;
                 case "Plays": // 4th dropdown to include Plays
-                    //dropdownLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]");
-                    dropdownLocator = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[5]/select[@name='model[]']");
+                    dropdownLocator =  smartPlaylistPage.dropdownLocatorPlays;
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid rule option: " + optionText);
@@ -222,16 +216,17 @@ public class SmartListsTests {
             By optionLocator = null;
             switch (optionText) {
                 case "Title":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[1]");
+                    optionLocator =  smartPlaylistPage.optionLocatorTitle;
                     break;
+
                 case "Album":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]/option[2]");
+                    optionLocator =  smartPlaylistPage.optionLocatorAlbum;
                     break;
                 case "Artist":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]/option[3]");
+                    optionLocator =  smartPlaylistPage.optionLocatorArtist;
                     break;
                 case "Plays":
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]/option[4]");
+                     optionLocator =  smartPlaylistPage.optionLocatorPlays;
                     break;
             }
 
@@ -268,16 +263,16 @@ public class SmartListsTests {
 
     }
 
-
-
     @And("the user adds Group option with multiple valid rules options and inputs")
     public void theUserAddsGroupOptionWithMultipleRules(DataTable dataTable) throws InterruptedException {
         List<Map<String, String>> optionInputList = dataTable.asMaps(String.class, String.class);
 
         // Add Group button (adjust as per your UI)
-        By groupButtonLocator = By.cssSelector(".btn-add-group");
-        By deleteRuleBtn = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[@class='row']/button[@class='remove-rule']/i[@class='fa fa-times']");
+        //Delete: By groupButtonLocator = By.cssSelector(".btn-add-group");
+        By groupButtonLocator = smartPlaylistPage.groupBtn;
 
+       // By deleteRuleBtn = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[@class='row']/button[@class='remove-rule']/i[@class='fa fa-times']");
+        By deleteRuleBtn = smartPlaylistPage.deleteBtn;
         // Call the method to fill the dropdowns and inputs for Group
         fillGroupDynamicDropdowns(webDriverManager.getDriver(), optionInputList, groupButtonLocator, deleteRuleBtn);
     }
@@ -314,25 +309,28 @@ public class SmartListsTests {
 
             // Determine the correct dropdown, option, and input field locators based on the rule
             switch (optionText) {
-                case "Title":////div[@class='smart-playlist-form']/div/form//div[@class='rule-group']/div[2]/select[@name='model[]']
-                    dropdownLocator = By.xpath("//div[@class='rule-group']/div[2]/select[@name='model[]']"); // First dropdown
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[2]/select[1]/option[1]");
-                    inputFieldLocator = By.xpath("//div/form//div[@class='rule-group']/div[2]//input[@name='value[]']"); // Title input field
+                case "Title":
+
+                    // First dropdown
+                    dropdownLocator = smartPlaylistPage.dropdownLocatorTextTitle;
+                    optionLocator =  smartPlaylistPage.optionLocatorTextTitle;
+                    inputFieldLocator = smartPlaylistPage.inputFieldLocatorTextTitle;
                     break;
                 case "Album":
-                    dropdownLocator = By.xpath("//div[@class='rule-group']/div[3]/select[@name='model[]']"); // Second dropdown
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[3]/select[1]/option[2]");
-                    inputFieldLocator = By.xpath("//div/form//div[@class='rule-group']/div[3]//input[@name='value[]']"); // Album input field
+                    dropdownLocator = smartPlaylistPage.dropdownLocatorTextAlbum;
+                    optionLocator =  smartPlaylistPage.optionLocatorTextAlbum;
+                    inputFieldLocator = smartPlaylistPage.inputFieldLocatorTextAlbum;
                     break;
                 case "Artist":
-                    dropdownLocator = By.xpath("//div[@class='rule-group']/div[4]/select[@name='model[]']"); // Third dropdown
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[4]/select[1]/option[3]");
-                    inputFieldLocator = By.xpath("//div/form//div[@class='rule-group']/div[4]//input[@name='value[]']"); // Artist input field
+                    dropdownLocator = smartPlaylistPage.dropdownLocatorTextArtist;
+                    optionLocator =  smartPlaylistPage.optionLocatorTextArtist;
+                    inputFieldLocator = smartPlaylistPage.inputFieldLocatorTextArtist;
+
                     break;
                 case "Plays":
-                    dropdownLocator = By.xpath("//div[@class='rule-group']/div[5]/select[@name='model[]']"); // Fourth dropdown
-                    optionLocator = By.xpath("//*[@id='mainWrapper']/div/div/div/form/div/div[2]/div/div[5]/select[1]/option[4]");
-                    inputFieldLocator = By.xpath("//div/form//div[@class='rule-group']/div[5]//input[@name='value[]']"); // Plays input field
+                    dropdownLocator = smartPlaylistPage.dropdownLocatorTextPlays;
+                    optionLocator =  smartPlaylistPage.optionLocatorTextPlays;
+                    inputFieldLocator = smartPlaylistPage.inputFieldLocatorTextPlays;
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid group rule option: " + optionText);
@@ -433,15 +431,22 @@ public class SmartListsTests {
         }
 
     }
-
     @And("the user has Smart Playlists to delete")
-    public void theUserHasSmartPlaylistsToDelete() {
+    public void theUserHasSmartPlaylistsToDelete() throws InterruptedException {
+        // Locate the Smart Playlists elements
+        WebDriverWait wait = new WebDriverWait(webDriverManager.getDriver(), Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePage.selectFirstSmartPlaylist));
+
         // Locate the Smart Playlists elements
         List<WebElement> playlists = webDriverManager.getDriver().findElements(homePage.selectFirstSmartPlaylist);
+
+        // Log the number of playlists found for debugging
+        System.out.println("Number of playlists found: " + playlists.size());
 
         // Assert that the playlists list is not empty
         Assert.assertTrue(!playlists.isEmpty(), "Expected to find Smart Playlists to delete, but none were found.");
     }
+
 
     @And("the hoovers over a Smart Playlist from left menu")
     public void theClicksOnASmartPlaylistFromLeftMenu() throws InterruptedException {
