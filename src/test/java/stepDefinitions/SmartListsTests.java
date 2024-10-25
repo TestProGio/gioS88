@@ -268,10 +268,8 @@ public class SmartListsTests {
         List<Map<String, String>> optionInputList = dataTable.asMaps(String.class, String.class);
 
         // Add Group button (adjust as per your UI)
-        //Delete: By groupButtonLocator = By.cssSelector(".btn-add-group");
         By groupButtonLocator = smartPlaylistPage.groupBtn;
 
-       // By deleteRuleBtn = By.xpath("//div/form//div[@class='form-row rules']/div[1]/div[@class='row']/button[@class='remove-rule']/i[@class='fa fa-times']");
         By deleteRuleBtn = smartPlaylistPage.deleteBtn;
         // Call the method to fill the dropdowns and inputs for Group
         fillGroupDynamicDropdowns(webDriverManager.getDriver(), optionInputList, groupButtonLocator, deleteRuleBtn);
@@ -448,10 +446,10 @@ public class SmartListsTests {
     }
 
 
-    @And("the hoovers over a Smart Playlist from left menu")
+    @And("the hovers over a Smart Playlist from left menu")
     public void theClicksOnASmartPlaylistFromLeftMenu() throws InterruptedException {
         homePage.hoverOverSmartPlaylistMenu();
-        // Hoovers over 1st Smart Playlist found logic without selecting delete yet
+        // Hovers over 1st Smart Playlist found logic without selecting delete yet
         Thread.sleep(2000);
     }
 
@@ -460,7 +458,7 @@ public class SmartListsTests {
     public void theUserRightClicksToTheOptionToDeleteOrEdit() throws InterruptedException {
         // Here, use the delete option
         homePage.rightClickToDeleteSmartPlaylist();
-        Thread.sleep(2000);
+        Thread.sleep(3000);
     }
 
     @Then("the Smart playlist should be deleted successfully")

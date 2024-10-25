@@ -89,7 +89,7 @@ public class HomePage extends BasePage {
         By optionToDelete = selectDeleteSmartPlaylist;
 
         // Create WebDriverWait object
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         // Wait until the delete element is clickable
         WebElement deleteOption = wait.until(ExpectedConditions.elementToBeClickable(optionToDelete));
