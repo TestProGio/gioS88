@@ -10,7 +10,7 @@ public class KoelLogin {
     // Base URL for the API
     private static final String BASE_URL = "https://qa.koel.app/";
     // Your pre-existing authentication token
-    private static final String AUTH_TOKEN = "338367|M1BSl3bI1kUtbHfTZOdvprhhqPvh0DULZHhB6ngy";
+    private static final String AUTH_TOKEN = "341993|06T50X3aNoEiyJuyAD5yDgunUyiQpWC76uwrOTKo";
 
     /**
      * Method to return the auth token.

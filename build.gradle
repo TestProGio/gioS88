@@ -16,6 +16,9 @@ java {
 }
 
 dependencies {
+    // JUnit 5 (JUnit Jupiter) dependency
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.11.3' //
+
     // TestNG for testing
     testImplementation 'org.testng:testng:7.8.0'
 
@@ -33,7 +36,8 @@ dependencies {
 
     // REST Assured for API testing
     testImplementation 'io.rest-assured:rest-assured:5.5.0'
-
+    testImplementation 'io.rest-assured:json-path:5.5.0'
+    testImplementation 'io.rest-assured:xml-path:3.0.2'
     // JSON parsing for handling JSON responses
     testImplementation 'org.json:json:20240303'
 
@@ -51,10 +55,10 @@ dependencies {
 test {
     useTestNG() {
         //API Testing XML
-       // suites "src/test/resources/APItests.xml" // Use the API test suite XML
+        suites "src/test/resources/APItests.xml" // Use the API test suite XML
 
         // Commenting out Cucumber test suite
-        suites "src/test/resources/Cucumber.xml" // Cucumber test suite
+      //  suites "src/test/resources/Cucumber.xml" // Cucumber test suite
        systemProperty "browser", System.getProperty("browser")
 
         // Add ReportNG listeners for enhanced reporting
