@@ -3,9 +3,10 @@
     <test name="API Tests">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="apiKoel.RecentlyPlayedSongsTest"/>
-            <!--<class name="apiKoel.PlaySongTests"/>-->
-            <!--  <class name="apiKoel.LoginAPITest"/>-->
+          <!-- <class name="apiKoel.RecentlyPlayedSongsTest"/>-->
+            <class name="apiKoel.IncreasePlayCountTest"/>
+            <!-- <class name="apiKoel.PlaySongTests"/>-->
+           <!--  <class name="apiKoel.LoginAPITest"/>-->
             <!-- <class name="apiKoel.KoelLogin"/>-->
             <!--<class name="apiKoel.CreateNewPlaylist"/>-->
             <!-- <class name="apiKoel.UnlikeMultipleSongs"/> -->
